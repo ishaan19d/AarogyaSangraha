@@ -1,0 +1,22 @@
+{% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Practitioner Signup</title>
+</head>
+<body>
+    {% block body %}
+    <h1>Medical Practitioner Signup</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {{ userForm.as_p }}
+        </div>
+        <div>
+            {{ medicalPractitionerForm.as_p }}
+        </div>
+        <button type="submit">Sign Up</button>
+    </form>
+    {% endblock %}
+</body>
+</html>
