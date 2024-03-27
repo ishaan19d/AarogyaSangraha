@@ -1,0 +1,22 @@
+{% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital</title>
+</head>
+<body>
+  {% block body %}
+  <h1>Job Applications</h1>
+
+  <ul>
+    {% for hospital in hospitals %}
+      <li>
+        <a href="{% url 'treatment:process_hospital_verification' hospital.hospitalID %}">
+          {{ hospital.hospitalID }} - {{ hospital.status }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endblock %}
+</body>
+</html>

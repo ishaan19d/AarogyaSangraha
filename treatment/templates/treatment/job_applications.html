@@ -1,0 +1,115 @@
+{% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .switch-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  {% block body %}
+  <h1>Job Applications</h1>
+  <!-- Toggle switch -->
+  <div class="switch-container">
+    <span>Pending</span>
+    <label class="switch">
+      <input type="checkbox" id="toggleSwitch">
+      <span class="slider round"></span>
+    </label>
+    <span>Past Applications</span>
+  </div>
+  <ul id="pendingRecords">
+    {% for application in job_applications %}
+    {% if application.status == 'pending' %}
+      <li>
+        <a href="{% url 'treatment:process_job_application' application.id %}">
+          {{ application.medical_practitioner }} - {{ application.get_status_display }}
+        </a>
+      </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+
+  <!-- Past records -->
+  <ul id="pastRecords" style="display: none;">
+    {% for application in job_applications %}
+    {% if application.status != 'pending' %}
+      <li>
+        <a href="{% url 'treatment:process_job_application' application.id %}">
+          {{ application.medical_practitioner }} - {{ application.get_status_display }}
+        </a>
+      </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+
+  <script>
+  document.getElementById('toggleSwitch').addEventListener('change', function() {
+    document.getElementById('pendingRecords').style.display = this.checked ? 'none' : 'block';
+    document.getElementById('pastRecords').style.display = this.checked ? 'block' : 'none';
+  });
+  </script>
+  {% endblock %}
+</body>
+</html>

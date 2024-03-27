@@ -6,18 +6,18 @@ class Hospital(models.Model):
     name = models.CharField(max_length=50)
     hospitalID = models.CharField(max_length=10,primary_key=True)
     address = models.CharField(max_length=250)
-    status=models.BooleanField(default=True)
+    status = models.CharField(max_length=20, choices=(
+        ('pending', 'Pending Verification'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected')
+    ), default='pending')
 
     def get_hospital_id(self):
         return self.hospitalID
-    # @property
-    # def get_name(self):
-    #     return self.user.name
-    # @property
-    # def get_id(self):
-    #     return self.user.id
-    # def __str__(self):
-    #     return "{} ({})".format(self.user.name,self.hospitalID)
+    
+    def __str__(self):
+        return f"{self.name} ({self.hospitalID})"
+
     
 departments=[('Cardiologist','Cardiologist'),
 ('Dermatologists','Dermatologists'),
@@ -45,14 +45,18 @@ class MedicalPractitioner(models.Model):
 
     def get_medicalID(self):
         return self.medicalID
-    # @property
-    # def get_name(self):
-    #     return self.user.first_name+" "+self.user.last_name
-    # @property
-    # def get_id(self):
-    #     return self.user.id
-    # def __str__(self):
-    #     return "{} ({})".format(self.user.first_name+" "+self.user.last_name,self.department)
+    
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name} ({self.medicalID})"
+
+class Admin(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    
+    def get_username(self):
+        return self.user.username
+    
+    def __str__(self):
+        return self.user.username
 
 class BirthCertificate(models.Model):
     bid = models.CharField(max_length=15,primary_key=True)
@@ -87,14 +91,6 @@ class Patient(models.Model):
 
     def get_aadharNo(self):
         return self.aadharNo
-    # @property
-    # def get_name(self):
-    #     return self.user.first_name+" "+self.user.last_name
-    # @property
-    # def get_id(self):
-    #     return self.user.id
-    # def __str__(self):
-    #     return self.user.first_name+" ("+self.aadharNo+")"
 
 rclass=[('general','general'),('restricted','restricted')]
 mtype=[('antipyretic','antipyretic'),
@@ -113,11 +109,7 @@ class Medicine(models.Model):
     type_med = models.CharField(max_length=50,choices=mtype,default=None)
     regulatoryClass = models.CharField(max_length=50,choices=rclass,default=None)
     medCost = models.IntegerField()
-    # @property
-    # def get_it(self):
-    #     return self.medName
-    # def __str__(self):
-    #     return self.medName+" ("+self.type_med+")"
+
 
 sList=[(0,0),(1,1),(2,2),(3,3),(4,4),(5,5)]
 aList = [('Yes', 'Yes'), ('No', 'No'), ('Not Required', 'Not Required')]
@@ -150,3 +142,14 @@ class Vitals(models.Model):
     bsa = models.DecimalField(max_digits=5, decimal_places=2)
     glucose = models.IntegerField()
     abnormalities = models.CharField(max_length=100,default=None,null=True,blank=True)
+
+class JobApplication(models.Model):
+    medical_practitioner = models.ForeignKey(MedicalPractitioner, on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    application_date = models.DateField(auto_now_add=True)
+    experience = models.IntegerField()
+    status = models.CharField(max_length=20, choices=(
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected')
+    ), default='pending')
