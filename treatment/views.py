@@ -1,11 +1,18 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponseRedirect
 from . import forms,models
 from django.contrib.auth.models import Group
 from .utils import get_login_redirect_url
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 # Create your views here.
 def home_view(request):
-    return render(request,'treatment/home.html')
+    patient_count=models.Patient.objects.count()
+    medical_count=models.MedicalPractitioner.objects.count()
+    hospital_count=models.Hospital.objects.count()
+    mydict={'patient_count':patient_count,'medical_count':medical_count,'hospital_count':hospital_count}
+    return render(request,'treatment/home.html',context=mydict)
 
 def hospital_signup_view(request):
     userForm=forms.HospitalUserForm()
@@ -64,6 +71,23 @@ def patient_signup_view(request):
         return HttpResponseRedirect('patientlogin')
     return render(request,'treatment/patientsignup.html',context=mydict)
 
+def admin_signup_view(request):
+    userForm=forms.AdminUserForm()
+    mydict={'userForm':userForm}
+    if request.method=='POST':
+        userForm=forms.AdminUserForm(request.POST)
+        if userForm.is_valid():
+            user=userForm.save()
+            user.set_password(user.password)
+            user.save()
+            my_admin_group = Group.objects.get_or_create(name='ADMIN')
+            my_admin_group[0].user_set.add(user)
+            admin = models.Admin(user=user)
+            admin.save()
+
+        return HttpResponseRedirect('adminlogin')
+    return render(request,'treatment/adminsignup.html',context=mydict)
+    
 def hospital_dashboard_view(request,hospitalID):
     hospital=models.Hospital.objects.get(hospitalID=hospitalID)
     return render(request,'treatment/hospital_dashboard.html',{'hospital':hospital})
@@ -74,8 +98,76 @@ def patient_dashboard_view(request,aadharNo):
 
 def medical_practitioner_dashboard_view(request,medicalID):
     medicalPractitioner=models.MedicalPractitioner.objects.get(medicalID=medicalID)
-    return render(request,'treatment/medical_practitioner_dashboard.html',{'medicalPractitioner':medicalPractitioner})
+    return render(request,'treatment/medprac_dashboard.html',{'medicalPractitioner':medicalPractitioner})
+
+def admin_dashboard_view(request, username):
+    user = User.objects.get(username=username)
+    admin = user.admin
+    return render(request, 'treatment/admin_dashboard.html', {'admin': admin})
+
 def login_redirect_view(request):
     user = request.user
     redirect_url = get_login_redirect_url(user)
     return redirect(redirect_url)
+
+def send_job_application(request):
+    if request.method == 'POST':
+        form = forms.JobApplicationForm(request.POST)
+        if form.is_valid():
+            medical_practitioner = request.user.medicalpractitioner
+            hospital_id = form.cleaned_data['hospital'].hospitalID
+            print(f"Submitted hospital_id: {hospital_id}")
+            hospital = get_object_or_404(models.Hospital, hospitalID=hospital_id)
+            experience = form.cleaned_data['experience']
+            job_application = models.JobApplication.objects.create(
+                medical_practitioner=medical_practitioner,
+                hospital=hospital,
+                experience=experience
+            )
+            messages.success(request, 'Your job application has been sent successfully.')
+            return redirect('treatment:application_sent')
+    else:
+        form = forms.JobApplicationForm()
+    return render(request, 'treatment/send_job_application.html', {'form': form})
+
+def application_sent(request):
+    return render(request, 'treatment/application_sent.html')
+
+@login_required
+def process_job_application(request, application_id):
+    job_application = get_object_or_404(models.JobApplication, id=application_id)
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status == 'accept':
+            job_application.status = 'accepted'
+            job_application.medical_practitioner.hospitalID = job_application.hospital
+            job_application.medical_practitioner.save()
+        elif status == 'reject':
+            job_application.status = 'rejected'
+        job_application.save()
+        return redirect('treatment:job_applications')
+    return render(request, 'treatment/process_job_application.html', {'job_application': job_application})
+
+@login_required
+def job_applications(request):
+    hospital = request.user.hospital
+    job_applications = models.JobApplication.objects.filter(hospital=hospital)
+    return render(request, 'treatment/job_applications.html', {'job_applications': job_applications})
+
+@login_required
+def hospital_verification(request):
+    hospitals=models.Hospital.objects.filter(status='pending')
+    return render(request, 'treatment/hospital_verification.html', {'hospitals': hospitals})
+
+@login_required
+def process_hospital_verification(request, hospitalID):
+    hospital = get_object_or_404(models.Hospital, hospitalID=hospitalID)
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status == 'approve':
+            hospital.status = 'approved'
+        elif status == 'reject':
+            hospital.status = 'rejected'
+        hospital.save()
+        return redirect('treatment:hospital_verification')
+    return render(request, 'treatment/process_hospital_verification.html', {'hospital': hospital})

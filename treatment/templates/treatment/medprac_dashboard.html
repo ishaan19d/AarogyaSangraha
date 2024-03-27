@@ -9,6 +9,12 @@
 <body>
     {% block body %}
     <p>this is med prac {{ medicalPractitioner.medicalID }}</p>
+    <p>this is his hos: {{ medicalPractitioner.hospitalID }}</p>
+    {% if not medicalPractitioner.hospitalID %}
+      <a href="{% url 'treatment:send_job_application' %}">
+        <button>Apply for Hospital</button>
+      </a>
+    {% endif %}
     {% endblock %}
 </body>
 </html>

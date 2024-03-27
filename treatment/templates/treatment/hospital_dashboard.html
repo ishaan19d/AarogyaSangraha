@@ -9,6 +9,18 @@
 <body>
     {% block body %}
     <p>this is hospital {{ hospital.hospitalID }}</p>
+    {% if hospital.status == 'pending' %}
+    <p>Your hospital is not yet verified.<br>
+    Please wait for the approval by one of our administrator.</p>
+    {% elif hospital.status == 'rejected' %}
+    <p>
+    Our administrator team found some issues with your hospital.<br>
+    Thus rejecting your request.<br>
+    Please contact us for more information.
+    </p>
+    {% else %}
+    <a href="{% url 'treatment:job_applications' %}">Request List</a>
+    {% endif %}
     {% endblock %}
 </body>
 </html>
