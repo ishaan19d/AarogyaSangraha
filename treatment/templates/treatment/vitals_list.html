@@ -1,0 +1,52 @@
+{% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitals Record</title>
+</head>
+<body>
+    {% block body %}
+    <div class="container">
+        <h2 class="mb-4">Vitals Recorded</h2>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Recorded At</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Pulse</th>
+                    <th>Blood Pressure (High)</th>
+                    <th>Blood Pressure (Low)</th>
+                    <th>SpO2</th>
+                    <th>Weight</th>
+                    <th>BMI</th>
+                    <th>BSA</th>
+                    <th>Glucose (Random)</th>
+                    <th>Abnormalities</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vital in vitals %}
+                <tr>
+                    <td>{{ vital.hospitalID }}</td>
+                    <td>{{ vital.date }}</td>
+                    <td>{{ vital.time }}</td>
+                    <td>{{ vital.pulse }}</td>
+                    <td>{{ vital.bp_High }}</td>
+                    <td>{{ vital.bp_low }}</td>
+                    <td>{{ vital.spO2 }}</td>
+                    <td>{{ vital.weight }}</td>
+                    <td>{{ vital.bmi }}</td>
+                    <td>{{ vital.bsa }}</td>
+                    <td>{{ vital.glucose }}</td>
+                    <td>{{ vital.abnormalities }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{% url 'treatment:patient_dashboard' request.user.patient.get_aadharNo %}">Back to Dashboard</a>
+    {% endblock %}
+</html>

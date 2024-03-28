@@ -69,3 +69,17 @@ class MedicineForm(forms.ModelForm):
     class Meta:
         model = models.Medicine
         fields = ['medName', 'company', 'type_med', 'regulatoryClass','dosage', 'medCost']
+
+class VitalsForm(forms.ModelForm):
+    aadharNo = forms.ModelChoiceField(
+        queryset=models.Patient.objects.all(),
+        label='Aadhar No',
+        to_field_name='aadharNo',
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'data-live-search': 'true'
+        })
+    )
+    class Meta:
+        model = models.Vitals
+        fields = ['aadharNo','pulse', 'bp_High', 'bp_low', 'spO2', 'weight', 'bmi', 'bsa', 'glucose', 'abnormalities']
