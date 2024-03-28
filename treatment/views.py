@@ -228,3 +228,24 @@ def reject_query(request, tid):
     treatment.query = 'No'
     treatment.save()
     return redirect('treatment:queried_treatments')
+
+@login_required
+def add_medicine(request):
+    if request.method == 'POST':
+        form = forms.MedicineForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('treatment:add_medicine')
+    else:
+        form = forms.MedicineForm()
+    return render(request, 'treatment/add_medicine.html', {'form': form})
+
+@login_required
+def delete_medicine(request, medName):
+    medicine = get_object_or_404(models.Medicine, medName=medName)
+    medicine.delete()
+    return redirect('treatment:medicine_list')
+
+def medicine_list(request):
+    medicines = models.Medicine.objects.all()
+    return render(request, 'treatment/medicine_list.html', {'medicines': medicines})

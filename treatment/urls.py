@@ -42,4 +42,8 @@ urlpatterns = [
     path('queried-treatments/',views.queried_treatments,name='queried_treatments'),
     path('queried-treatments/<uuid:tid>/terminate/', views.terminate_med_prac, name='terminate_med_prac'),
     path('queried-treatments/<uuid:tid>/reject_query/', views.reject_query, name='reject_query'),
+
+    path('add-medicine',views.add_medicine,name='add_medicine'),
+    path('delete-medicine/<str:medName>',views.delete_medicine,name='delete_medicine'),
+    path('medicine-list',views.medicine_list,name='medicine_list'),
 ]

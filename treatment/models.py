@@ -96,22 +96,23 @@ class Patient(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} ({self.aadharNo})"
 
-rclass=[('general','general'),('restricted','restricted')]
-mtype=[('antipyretic','antipyretic'),
-       ('analgesic','aanalgesic'),
-       ('antihistamine','antihistamine'),
-       ('antibiotic','antibiotic'),
-       ('antidepressant','antidepressant'),
-       ('anticoagulant','anticoagulant'),
-       ('antihypertensive','antihypertensive'),
-       ('anti-inflammatory','anti-inflammatory'),
-       ('antiviral','antiviral'),
-       ('diuretic','diuretic')]
+rclass=[('General','General'),('Restricted','Restricted')]
+mtype = [('Antipyretic', 'Antipyretic'),
+         ('Analgesic', 'Analgesic'),
+         ('Antihistamine', 'Antihistamine'),
+         ('Antibiotic', 'Antibiotic'),
+         ('Antidepressant', 'Antidepressant'),
+         ('Anticoagulant', 'Anticoagulant'),
+         ('Antihypertensive', 'Antihypertensive'),
+         ('Anti-inflammatory', 'Anti-inflammatory'),
+         ('Antiviral', 'Antiviral'),
+         ('Diuretic', 'Diuretic')]
 class Medicine(models.Model):
     medName = models.CharField(max_length=100,primary_key=True)
     company = models.CharField(max_length=50)
     type_med = models.CharField(max_length=50,choices=mtype,default=None)
     regulatoryClass = models.CharField(max_length=50,choices=rclass,default=None)
+    dosage = models.IntegerField()
     medCost = models.IntegerField()
 
 
