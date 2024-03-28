@@ -5,16 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     {% block body %}
-    <h2>Treat Patient</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p}}
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <h2>Treat Patient</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}" class="btn btn-secondary">Back to Dashboard</a>
+        </form>
+    </div>
+    {% endblock %}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function searchAadharNo() {
             var input, filter, options, option, i, txtValue;
@@ -32,9 +38,7 @@
                 }
             }
         }
-    
         document.getElementById('id_aadharNo').addEventListener('input', searchAadharNo);
     </script>
-    {% endblock %}
 </body>
 </html>

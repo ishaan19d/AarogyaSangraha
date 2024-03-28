@@ -140,8 +140,8 @@ class Medicine_Treatment(models.Model):
 class Vitals(models.Model):
     hospitalID = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True, to_field='hospitalID')
     aadharNo = models.ForeignKey(Patient,on_delete=models.CASCADE,to_field='aadharNo')
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
     pulse = models.IntegerField()
     bp_High = models.IntegerField()
     bp_low = models.IntegerField()

@@ -249,3 +249,20 @@ def delete_medicine(request, medName):
 def medicine_list(request):
     medicines = models.Medicine.objects.all()
     return render(request, 'treatment/medicine_list.html', {'medicines': medicines})
+
+@login_required
+def add_vitals(request):
+    if request.method == 'POST':
+        form = forms.VitalsForm(request.POST)
+        if form.is_valid():
+            vitals = form.save(commit=False)
+            vitals.hospitalID = request.user.medicalpractitioner.hospitalID
+            vitals.save()
+            return redirect('treatment:add_vitals')
+    else:
+        form = forms.VitalsForm()
+    return render(request, 'treatment/add_vitals.html', {'form': form})
+
+def vitals_list(request, aadharNo):
+    vitals = models.Vitals.objects.filter(aadharNo=aadharNo).order_by('-time')
+    return render(request, 'treatment/vitals_list.html', {'vitals': vitals})
