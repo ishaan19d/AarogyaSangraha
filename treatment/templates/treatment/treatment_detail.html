@@ -1,0 +1,72 @@
+ {% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block body %}
+    <h2>Your Treatment Record</h2>
+    <table>
+        <tr>
+            <td>Treatment ID</td>
+            <td>{{ treatment.tid }}</td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>{{ treatment.date }}</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td>{{ treatment.time }}</td>
+        </tr>
+        <tr>
+            <td>Patient Name</td>
+            <td>{{ treatment.aadharNo.user.first_name }} {{treatment.aadharNo.user.last_name}}</td>
+        </tr>
+        <tr>
+            <td>Aadhar Number</td>
+            <td>{{ treatment.aadharNo.get_aadharNo }}</td>
+        </tr>
+        <tr>
+            <td>Department Concerned</td>
+            <td>{{ treatment.medicalID.department }}</td>
+        </tr>
+        <tr>
+            <td>Disease</td>
+            <td>{{ treatment.disease }}</td>
+        </tr>
+        <tr>
+            <td>Severity</td>
+            <td>{{ treatment.get_severity_display }}</td>
+        </tr>
+        <tr>
+            <td>Admitted</td>
+            <td>{{ treatment.get_admitted_display }}</td>
+        </tr>
+        <tr>
+            <td>Suggestions</td>
+            <td>{{ treatment.suggestions }}</td>
+        </tr>
+        <tr>
+            <td>Treatment Cost</td>
+            <td>{{ treatment.treatmentCost }}</td>
+        </tr>
+        <tr>
+            <td>Treated By</td>
+            <td>{{ treatment.medicalID }}</td>
+        </tr>
+        <tr>
+            <td>Treated At</td>
+            <td>{{ treatment.hospitalID }}</td>
+        </tr>
+    </table>
+    {% if request.user.patient %}
+        <a href="{% url 'treatment:patient_dashboard' request.user.patient.get_aadharNo %}">Back to Dashboard</a>
+    {% else %}
+        <a href="{% url 'treatment:practitioner_dashboard' treatment.medicalID.get_medicalID %}">Back to Dashboard</a>
+    {% endif %}
+    {% endblock %}
+</html>

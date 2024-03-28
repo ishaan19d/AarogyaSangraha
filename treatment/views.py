@@ -6,6 +6,7 @@ from .utils import get_login_redirect_url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your views here.
 def home_view(request):
     patient_count=models.Patient.objects.count()
@@ -97,8 +98,9 @@ def patient_dashboard_view(request,aadharNo):
     return render(request,'treatment/patient_dashboard.html',{'patient':patient})
 
 def medical_practitioner_dashboard_view(request,medicalID):
-    medicalPractitioner=models.MedicalPractitioner.objects.get(medicalID=medicalID)
-    return render(request,'treatment/medprac_dashboard.html',{'medicalPractitioner':medicalPractitioner})
+    medical_practitioner=models.MedicalPractitioner.objects.get(medicalID=medicalID)
+    job_application = models.JobApplication.objects.filter(medical_practitioner=medical_practitioner, status='pending')
+    return render(request,'treatment/medprac_dashboard.html',{'medicalPractitioner':medical_practitioner, 'job_status': True if job_application else False})
 
 def admin_dashboard_view(request, username):
     user = User.objects.get(username=username)
@@ -171,3 +173,58 @@ def process_hospital_verification(request, hospitalID):
         hospital.save()
         return redirect('treatment:hospital_verification')
     return render(request, 'treatment/process_hospital_verification.html', {'hospital': hospital})
+
+@login_required
+def add_treatment(request):
+    if request.method == 'POST':
+        form = forms.TreatmentForm(request.POST)
+        if form.is_valid():
+            treatment = form.save(commit=False)
+            treatment.medicalID = request.user.medicalpractitioner
+            treatment.hospitalID = request.user.medicalpractitioner.hospitalID
+            treatment.save()
+            return redirect('treatment:treatment_detail', tid=treatment.tid)
+    else:
+        form = forms.TreatmentForm()
+    return render(request, 'treatment/add_treatment.html', {'form': form})
+
+def treatment_detail(request, tid):
+    treatment = get_object_or_404(models.Treatment, tid=tid)
+    return render(request, 'treatment/treatment_detail.html', {'treatment': treatment})
+
+@login_required
+def patient_treatments(request):
+    treatments = models.Treatment.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-time')
+    return render(request, 'treatment/patient_treatments.html', {'treatments': treatments})
+
+@login_required
+def raise_query(request, tid):
+    treatment = get_object_or_404(models.Treatment, tid=tid)
+    if request.method == 'POST':
+        query = request.POST.get('query')
+        treatment.query = query
+        treatment.save()
+        return redirect('treatment:treatment_detail', tid=tid)
+    return render(request, 'treatment/raise_query.html', {'treatment': treatment})
+
+@login_required
+def queried_treatments(request):
+    treatments = models.Treatment.objects.filter(query__in=['Wrong Treatment', 'False Treatment'])
+    return render(request, 'treatment/queried_treatments.html', {'treatments': treatments})
+
+@login_required
+def terminate_med_prac(request, tid):
+    treatment = get_object_or_404(models.Treatment, tid=tid)
+    practitioner = get_object_or_404(models.MedicalPractitioner, medicalID=treatment.medicalID.get_medicalID())
+    practitioner.hospitalID = None
+    treatment.query='Addressed'
+    treatment.save()
+    practitioner.save()
+    return redirect('treatment:queried_treatments')
+
+@login_required
+def reject_query(request, tid):
+    treatment = get_object_or_404(models.Treatment, tid=tid)
+    treatment.query = 'No'
+    treatment.save()
+    return redirect('treatment:queried_treatments')
