@@ -1,0 +1,40 @@
+{% extends 'treatment/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+    {% block body %}
+    <h2>Treat Patient</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        function searchAadharNo() {
+            var input, filter, options, option, i, txtValue;
+            input = document.getElementById('id_aadharNo');
+            filter = input.value.toUpperCase();
+            options = input.getElementsByTagName('option');
+    
+            for (i = 0; i < options.length; i++) {
+                option = options[i];
+                txtValue = option.textContent || option.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            }
+        }
+    
+        document.getElementById('id_aadharNo').addEventListener('input', searchAadharNo);
+    </script>
+    {% endblock %}
+</body>
+</html>

@@ -33,4 +33,13 @@ urlpatterns = [
 
     path('hospital-verification/', views.hospital_verification, name='hospital_verification'),
     path('process-hospital-verification/<str:hospitalID>/', views.process_hospital_verification, name='process_hospital_verification'),
+
+    path('add-treatment',views.add_treatment,name='add_treatment'),
+    path('treatment-detail/<str:tid>',views.treatment_detail,name='treatment_detail'),
+
+    path('patient-treatments/',views.patient_treatments,name='patient_treatments'),
+    path('raise-query/<str:tid>',views.raise_query,name='raise_query'),
+    path('queried-treatments/',views.queried_treatments,name='queried_treatments'),
+    path('queried-treatments/<uuid:tid>/terminate/', views.terminate_med_prac, name='terminate_med_prac'),
+    path('queried-treatments/<uuid:tid>/reject_query/', views.reject_query, name='reject_query'),
 ]

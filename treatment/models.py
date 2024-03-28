@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 # Create your models here.
 class Hospital(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -91,6 +92,9 @@ class Patient(models.Model):
 
     def get_aadharNo(self):
         return self.aadharNo
+    
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name} ({self.aadharNo})"
 
 rclass=[('general','general'),('restricted','restricted')]
 mtype=[('antipyretic','antipyretic'),
@@ -113,9 +117,11 @@ class Medicine(models.Model):
 
 sList=[(0,0),(1,1),(2,2),(3,3),(4,4),(5,5)]
 aList = [('Yes', 'Yes'), ('No', 'No'), ('Not Required', 'Not Required')]
+q=[('Wrong Treatment','Wrong Treatment'),('False Treatment','False Treatment'),('No','No'),('Addressed','Addressed')]
 class Treatment(models.Model):
-    tid = models.CharField(max_length=15,primary_key=True)
-    date = models.DateField()
+    tid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
     disease = models.CharField(max_length=75)
     severity = models.IntegerField(choices=sList,default=0)
     admitted = models.CharField(max_length=20, choices=aList, default='Not Required')
@@ -123,6 +129,8 @@ class Treatment(models.Model):
     treatmentCost = models.IntegerField()
     medicalID = models.ForeignKey(MedicalPractitioner,on_delete=models.SET_NULL,null=True,blank=True,to_field='medicalID')
     hospitalID = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True, to_field='hospitalID')
+    suggestions = models.CharField(max_length=500,null=True,blank=True,default=None)
+    query = models.CharField(max_length=20,choices=q,default='No')
 
 class Medicine_Treatment(models.Model):
     medName = models.ForeignKey(Medicine, on_delete=models.SET_NULL, null=True, blank=True, to_field='medName', related_name='treatment_medicines')

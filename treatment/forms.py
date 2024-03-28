@@ -1,13 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-"""
-class Hospital(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    hospitalID = models.CharField(max_length=10,primary_key=True)
-    address = models.CharField(max_length=250)
-    status=models.BooleanField(default=True)"""
+from django_select2.forms import ModelSelect2Widget
+
 class HospitalUserForm(forms.ModelForm):
     class Meta:
         model=User
@@ -48,7 +43,6 @@ class JobApplicationForm(forms.Form):
     hospital = forms.ModelChoiceField(queryset=models.Hospital.objects.all())
     experience = forms.IntegerField(required=True)
 
-#create a form for admin user
 class AdminUserForm(forms.ModelForm):
     class Meta:
         model=User
@@ -56,3 +50,17 @@ class AdminUserForm(forms.ModelForm):
         widgets={
             'password':forms.PasswordInput()
         }
+
+class TreatmentForm(forms.ModelForm):
+    aadharNo = forms.ModelChoiceField(
+        queryset=models.Patient.objects.all(),
+        label='Aadhar No',
+        to_field_name='aadharNo',
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'data-live-search': 'true'
+        })
+    )
+    class Meta:
+        model = models.Treatment
+        fields = ['disease', 'severity', 'admitted', 'aadharNo', 'treatmentCost','suggestions']

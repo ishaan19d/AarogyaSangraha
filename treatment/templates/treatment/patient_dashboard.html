@@ -9,6 +9,7 @@
 <body>
     {% block body %}
     <p>this is patient {{ patient.aadharNo }}</p>
+    <a href="{% url  'treatment:patient_treatments'%}">View Treatments</a>
     {% endblock %}
 </body>
 </html>
