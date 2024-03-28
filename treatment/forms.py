@@ -64,3 +64,8 @@ class TreatmentForm(forms.ModelForm):
     class Meta:
         model = models.Treatment
         fields = ['disease', 'severity', 'admitted', 'aadharNo', 'treatmentCost','suggestions']
+
+class MedicineForm(forms.ModelForm):
+    class Meta:
+        model = models.Medicine
+        fields = ['medName', 'company', 'type_med', 'regulatoryClass','dosage', 'medCost']
