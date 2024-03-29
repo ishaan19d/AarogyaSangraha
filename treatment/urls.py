@@ -6,22 +6,22 @@ app_name='treatment'
 urlpatterns = [
     path('hospitalsignup',views.hospital_signup_view,name='hospitalsignup'),
     path('hospitallogin',LoginView.as_view(template_name='treatment/hospitallogin.html'),name='hospitallogin'),
-    path('hospitallogout',LogoutView.as_view(template_name='treatment/home.html'),name='hospitallogout'),
+    path('hospitallogout',LogoutView.as_view(next_page='http://127.0.0.1:8000/'),name='hospitallogout'),
     path('hospitaldashboard/<str:hospitalID>',views.hospital_dashboard_view,name='hospital_dashboard'),
     
     path('medpracsignup',views.medical_practitioner_signup_view,name='medpracsignup'),
     path('medpraclogin',LoginView.as_view(template_name='treatment/medpraclogin.html'),name='medpraclogin'),
-    path('medpraclogout',LogoutView.as_view(template_name='treatment/home.html'),name='medpraclogout'),
+    path('medpraclogout',LogoutView.as_view(next_page='http://127.0.0.1:8000/'),name='medpraclogout'),
     path('practitionerdashboard/<str:medicalID>',views.medical_practitioner_dashboard_view,name='practitioner_dashboard'),
 
     path('patientsignup',views.patient_signup_view,name='patientsignup'),
     path('patientlogin',LoginView.as_view(template_name='treatment/patientlogin.html'),name='patientlogin'),
-    path('patientlogout',LogoutView.as_view(template_name='treatment/home.html'),name='patientlogout'),
+    path('patientlogout',LogoutView.as_view(next_page='http://127.0.0.1:8000/'),name='patientlogout'),
     path('patientdashboard/<str:aadharNo>',views.patient_dashboard_view,name='patient_dashboard'),
     
     path('adminsignup',views.admin_signup_view,name='adminsignup'),
     path('adminlogin',LoginView.as_view(template_name='treatment/adminlogin.html'),name='adminlogin'),
-    path('adminlogout',LogoutView.as_view(template_name='treatment/home.html'),name='adminlogout'),
+    path('adminlogout',LogoutView.as_view(next_page='http://127.0.0.1:8000/'),name='adminlogout'),
     path('admindashboard/<str:username>',views.admin_dashboard_view,name='admin_dashboard'),
 
     path('login_redirect/', views.login_redirect_view, name='login_redirect'),

@@ -15,12 +15,15 @@
             <tr>
                 <th>Treatment ID</th>
                 <th>Date</th>
+                <th>Time</th>
                 <th>Disease</th>
+                <th>Department Concerned</th>
                 <th>Severity</th>
                 <th>Admitted</th>
                 <th>Treatment Cost</th>
                 <th>Treated By<br>Name (Medical ID)</th>
                 <th>Treated At<br>Name (Hospital ID)</th>
+                <th>Medicines Prescribed</th>
                 <th>Query ?</th>
             </tr>
         </thead>
@@ -29,12 +32,24 @@
             <tr>
                 <td>{{ treatment.tid }}</td>
                 <td>{{ treatment.date }}</td>
+                <td>{{ treatment.time }}</td>
                 <td>{{ treatment.disease }}</td>
+                <td>{{ treatment.medicalID.department }}</td>
                 <td>{{ treatment.get_severity_display }}</td>
                 <td>{{ treatment.get_admitted_display }}</td>
                 <td>{{ treatment.treatmentCost }}</td>
                 <td>{{ treatment.medicalID }}</td>
                 <td>{{ treatment.hospitalID }}</td>
+                <td>
+                    {% if not treatment.medicines.all %}
+                    <p>No medicines prescribed</p>
+                    {% endif %}
+                    <ol>
+                        {% for medicine in treatment.medicines.all %}
+                        <li>{{ medicine.medName }}</li>
+                        {% endfor %}
+                    </ol>
+                </td>
                 <td>
                     <a href="{% url 'treatment:raise_query' treatment.tid %}" class="btn btn-danger">Raise Query</a> <!-- Button to raise query -->
                 </td>

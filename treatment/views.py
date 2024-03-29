@@ -180,9 +180,13 @@ def add_treatment(request):
         form = forms.TreatmentForm(request.POST)
         if form.is_valid():
             treatment = form.save(commit=False)
-            treatment.medicalID = request.user.medicalpractitioner
             treatment.hospitalID = request.user.medicalpractitioner.hospitalID
+            treatment.medicalID = request.user.medicalpractitioner
             treatment.save()
+
+            medicines = form.cleaned_data['medicines']
+            for medicine in medicines:
+                models.Medicine_Treatment.objects.create(medName=medicine, tid=treatment)
             return redirect('treatment:treatment_detail', tid=treatment.tid)
     else:
         form = forms.TreatmentForm()
@@ -194,7 +198,7 @@ def treatment_detail(request, tid):
 
 @login_required
 def patient_treatments(request):
-    treatments = models.Treatment.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-time')
+    treatments = models.Treatment.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-date','-time')
     return render(request, 'treatment/patient_treatments.html', {'treatments': treatments})
 
 @login_required

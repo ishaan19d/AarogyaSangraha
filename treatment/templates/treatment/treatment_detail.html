@@ -62,6 +62,16 @@
             <td>Treated At</td>
             <td>{{ treatment.hospitalID }}</td>
         </tr>
+        <tr>
+            <td>Medicines Prescribed</td>
+            <td>
+                <ul>
+                    {% for medicine in treatment.medicines.all %}
+                        <li>{{ medicine }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
     </table>
     {% if request.user.patient %}
         <a href="{% url 'treatment:patient_dashboard' request.user.patient.get_aadharNo %}">Back to Dashboard</a>

@@ -115,6 +115,8 @@ class Medicine(models.Model):
     dosage = models.IntegerField()
     medCost = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.medName} ({self.dosage}mg)"
 
 sList=[(0,0),(1,1),(2,2),(3,3),(4,4),(5,5)]
 aList = [('Yes', 'Yes'), ('No', 'No'), ('Not Required', 'Not Required')]
@@ -132,6 +134,7 @@ class Treatment(models.Model):
     hospitalID = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True, to_field='hospitalID')
     suggestions = models.CharField(max_length=500,null=True,blank=True,default=None)
     query = models.CharField(max_length=20,choices=q,default='No')
+    medicines = models.ManyToManyField(Medicine, through='Medicine_Treatment')
 
 class Medicine_Treatment(models.Model):
     medName = models.ForeignKey(Medicine, on_delete=models.SET_NULL, null=True, blank=True, to_field='medName', related_name='treatment_medicines')

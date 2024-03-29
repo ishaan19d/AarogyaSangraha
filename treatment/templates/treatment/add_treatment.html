@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-    {% block body %}
+{% block body %}
     <div class="container">
         <h2>Treat Patient</h2>
         <form method="POST">
@@ -19,26 +20,18 @@
             <a href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}" class="btn btn-secondary">Back to Dashboard</a>
         </form>
     </div>
-    {% endblock %}
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        function searchAadharNo() {
-            var input, filter, options, option, i, txtValue;
-            input = document.getElementById('id_aadharNo');
-            filter = input.value.toUpperCase();
-            options = input.getElementsByTagName('option');
-    
-            for (i = 0; i < options.length; i++) {
-                option = options[i];
-                txtValue = option.textContent || option.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    option.style.display = "";
-                } else {
-                    option.style.display = "none";
-                }
-            }
-        }
-        document.getElementById('id_aadharNo').addEventListener('input', searchAadharNo);
+        $(document).ready(function() {
+            var medicineSelect = $('#id_medicines');
+            medicineSelect.DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                ordering: false
+            });
+        });
     </script>
+{% endblock %}
 </body>
 </html>

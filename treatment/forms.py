@@ -61,9 +61,15 @@ class TreatmentForm(forms.ModelForm):
             'data-live-search': 'true'
         })
     )
+    medicines = forms.ModelMultipleChoiceField(
+        queryset=models.Medicine.objects.all(),
+        label='Medicines',
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
     class Meta:
         model = models.Treatment
-        fields = ['disease', 'severity', 'admitted', 'aadharNo', 'treatmentCost','suggestions']
+        fields = ['disease', 'severity', 'admitted', 'aadharNo', 'treatmentCost', 'suggestions', 'medicines']
 
 class MedicineForm(forms.ModelForm):
     class Meta:
