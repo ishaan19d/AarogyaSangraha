@@ -86,7 +86,7 @@ class Patient(models.Model):
     date_of_birth = models.DateField()
     bloodGroup = models.CharField(max_length=3,choices=bg,default=None)
     emergencyContact = models.CharField(max_length=10)
-    criticalInfo = models.CharField(max_length=150)
+    criticalInfo = models.CharField(max_length=150,null=True,blank=True,default=None)
     bid = models.ForeignKey(BirthCertificate,on_delete=models.SET_NULL,null=True,blank=True,to_field='bid',default=None)
     did = models.ForeignKey(DeathCertificate,on_delete=models.SET_NULL,null=True,blank=True,to_field='did',default=None)
 
