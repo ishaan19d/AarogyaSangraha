@@ -12,7 +12,14 @@
   <div class="container">
     <p>This is med prac {{ medicalPractitioner.medicalID }}</p>
     <p>This is his hos: {{ medicalPractitioner.hospitalID }}</p>
-    {% if job_status %}
+    {% if medicalPractitioner.status == 'Suspended' %}
+    <p>You have been suspended, submit an application to judiciary to get back your license.</p>
+    {% elif medicalPractitioner.status == 'Permanently Suspended' %}
+    <p>Your medical License has been terminated.
+      <br>
+      Thanks for your black service.
+    </p>
+    {% elif job_status %}
       <p>You have already applied for a job. Wait for the response!</p>
     {% elif not medicalPractitioner.hospitalID_id %}
       <a href="{% url 'treatment:send_job_application' %}">

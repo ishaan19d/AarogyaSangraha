@@ -221,6 +221,7 @@ def terminate_med_prac(request, tid):
     treatment = get_object_or_404(models.Treatment, tid=tid)
     practitioner = get_object_or_404(models.MedicalPractitioner, medicalID=treatment.medicalID.get_medicalID())
     practitioner.hospitalID = None
+    practitioner.status = 'Suspended'
     treatment.query='Addressed'
     treatment.save()
     practitioner.save()
@@ -270,3 +271,21 @@ def add_vitals(request):
 def vitals_list(request, aadharNo):
     vitals = models.Vitals.objects.filter(aadharNo=aadharNo).order_by('-time')
     return render(request, 'treatment/vitals_list.html', {'vitals': vitals})
+
+def requests_suspension_removal(request):
+    medical_practitioners = models.MedicalPractitioner.objects.filter(status='Suspended')
+    return render(request, 'treatment/requests_suspension_removal.html', {'medical_practitioners': medical_practitioners})
+
+@login_required
+def suspension_removal(request, medicalID):
+    medical_practitioner = get_object_or_404(models.MedicalPractitioner, medicalID=medicalID)
+    medical_practitioner.status = 'Authorized'
+    medical_practitioner.save()
+    return redirect('treatment:requests_suspension_removal')
+
+@login_required
+def suspension_permanent(request, medicalID):
+    medical_practitioner = get_object_or_404(models.MedicalPractitioner, medicalID=medicalID)
+    medical_practitioner.status = 'Permanently Suspended'
+    medical_practitioner.save()
+    return redirect('treatment:requests_suspension_removal')
