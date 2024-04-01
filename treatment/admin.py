@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import BirthCertificate,DeathCertificate,Hospital,MedicalPractitioner,Patient,Medicine,Treatment,Medicine_Treatment,Vitals,JobApplication,Admin
+from .models import Hospital,MedicalPractitioner,Patient,Medicine,Treatment,Medicine_Treatment,Vitals,JobApplication,Admin
 # Register your models here.
-admin.site.register(BirthCertificate)
-admin.site.register(DeathCertificate)
 admin.site.register(Hospital)
 admin.site.register(MedicalPractitioner)
 admin.site.register(Patient)

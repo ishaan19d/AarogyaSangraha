@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-from django_select2.forms import ModelSelect2Widget
 
 class HospitalUserForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=100,label='Name')
+    last_name = forms.ChoiceField(choices=[('Govt. Hospital', 'Govt. Hospital'), ('Pvt. Hospital', 'Pvt. Hospital'),('NGO Hospital','NGO Hospital'),('Pvt. Clinic','Pvt. Clinic')], label='Type')
     class Meta:
         model=User
         fields=['first_name','last_name','username','password']
@@ -13,7 +14,7 @@ class HospitalUserForm(forms.ModelForm):
 class HospitalForm(forms.ModelForm):
     class Meta:
         model=models.Hospital
-        fields=['name','hospitalID','address']
+        fields=['hospitalID','address','city','state','pincode']
 
 class MedicalPractitionerUserForm(forms.ModelForm):
     class Meta:
@@ -37,7 +38,7 @@ class PatientUserForm(forms.ModelForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model=models.Patient
-        fields=['aadharNo','sex','date_of_birth','bloodGroup','emergencyContact','criticalInfo','bid','did']
+        fields=['aadharNo','sex','date_of_birth','bloodGroup','emergencyContact','criticalInfo']
 
 class JobApplicationForm(forms.Form):
     hospital = forms.ModelChoiceField(queryset=models.Hospital.objects.all())
@@ -50,7 +51,6 @@ class AdminUserForm(forms.ModelForm):
         widgets={
             'password':forms.PasswordInput()
         }
-
 class TreatmentForm(forms.ModelForm):
     aadharNo = forms.ModelChoiceField(
         queryset=models.Patient.objects.all(),
@@ -69,7 +69,7 @@ class TreatmentForm(forms.ModelForm):
     )
     class Meta:
         model = models.Treatment
-        fields = ['disease', 'severity', 'admitted', 'aadharNo', 'treatmentCost', 'suggestions', 'medicines']
+        fields = ['symptoms', 'disease','advisedTest', 'admitted', 'aadharNo', 'treatmentCost', 'suggestions', 'medicines']
 
 class MedicineForm(forms.ModelForm):
     class Meta:
