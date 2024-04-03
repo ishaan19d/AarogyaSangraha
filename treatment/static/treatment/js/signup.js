@@ -37,3 +37,8 @@ function getRandomHealthQuote() {
 
 // Call getRandomHealthQuote() function when the page loads
 window.onload = getRandomHealthQuote;
+
+
+$('select').on('change', function() {
+    $(this).find('option:selected').addClass('selectedOption');
+});
