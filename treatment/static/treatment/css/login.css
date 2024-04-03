@@ -207,7 +207,7 @@ input:focus {
 }
 
 input::-webkit-input-placeholder {
-     color: #1b3815
+     color: #899487
 }
 
 input:-moz-placeholder {
@@ -343,8 +343,8 @@ iframe {
 
 .input100 {
      font-family:sans-serif;
-     font-size: 18px;
-     color: #a5aba4 !important;
+     font-size: 15px;
+     color: #1b3815;
      line-height: 1.2;
      position: relative;
      display: block;

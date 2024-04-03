@@ -36,8 +36,8 @@ body {
 
 .box-container {
     contain: content;
-    margin: 50px auto;
-    margin-top: 150px;
+    margin: 30px auto;
+    margin-top: 20px;
     width: 80%;
     background-color: #5d4ef3;
     border-radius: 0 70px;
@@ -223,7 +223,7 @@ input:focus {
 }
 
 input::-webkit-input-placeholder {
-    color: #1b3815
+    color: #899487
 }
 
 input:-moz-placeholder {
@@ -326,7 +326,7 @@ iframe {
     -webkit-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
     -o-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
     -ms-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    height: 800px;
+    height:1000px;
     margin: 30px auto;
 }
 
@@ -361,7 +361,7 @@ iframe {
 }
 
 .input100 {
-    font-family: Ubuntu-Bold;
+    font-family: sans-serif;
     font-size: 15px;
     color: #1b3815;
     line-height: 1.2;
@@ -516,31 +516,31 @@ iframe {
 .input100::-webkit-input-placeholder {
     color: #9c9696;
     font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:sans-serif;
 }
 
 .input100::-moz-placeholder {
     color: #9c9696;
     font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:sans-serif;
 }
 
 .input100:-ms-input-placeholder {
     color: #9c9696;
     font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:sans-serif;
 }
 
 .input100::-ms-input-placeholder {
     color: #9c9696;
     font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:sans-serif;
 }
 
 .input100::placeholder {
     color: #9c9696;
     font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
 }
 
 .heading-left {
