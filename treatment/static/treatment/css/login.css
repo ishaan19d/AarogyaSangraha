@@ -271,8 +271,18 @@ iframe {
      font-size: 15px;
      color: #57b846;
      line-height: 1.4;
-     text-transform: uppercase
-}
+     text-transform: uppercase;
+     cursor: pointer; /* Add cursor pointer to make it clickable */
+     position: relative; /* Ensure the link has a position */
+     z-index: 2; /* Ensure the link appears above other elements */
+ }
+ 
+ /* Add hover effect for better user experience */
+ .txt3:hover {
+     color: #388e3c; /* Change color on hover */
+     text-decoration: underline; /* Add underline on hover */
+ }
+ 
 
 .limiter {
      width: 100%;
@@ -453,23 +463,23 @@ iframe {
      height: 100%;
  }
 
-.login100-form-btn {
+ .login100-form-btn {
      display: -webkit-box;
      display: -ms-flexbox;
      display: flex;
      -webkit-box-pack: center;
-         -ms-flex-pack: center;
-             justify-content: center;
+     -ms-flex-pack: center;
+     justify-content: center;
      -webkit-box-align: center;
-         -ms-flex-align: center;
-             align-items: center;
+     -ms-flex-align: center;
+     align-items: center;
      padding: 0 20px;
      width: 100%;
      height: 50px;
      margin-top: 20px;
      background-color: #5d4ef3;
      border-radius: 25px;
-     font-family:sans-serif;
+     font-family: sans-serif;
      font-size: 15px;
      color: #fff;
      line-height: 1.2;
@@ -477,6 +487,14 @@ iframe {
      -webkit-transition: all .4s;
      -o-transition: all .4s;
      transition: all .4s;
+     cursor: pointer; /* Add cursor pointer to make it clickable */
+     position: relative; /* Ensure the button has a position */
+     z-index: 2; /* Ensure the button appears above other elements */
+ }
+ 
+ /* Add hover effect for better user experience */
+ .login100-form-btn:hover {
+     background-color: #3f3da8; /* Change background color on hover */
  }
 
 .text-right {
