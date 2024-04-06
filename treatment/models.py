@@ -123,7 +123,7 @@ class Treatment(models.Model):
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
     symptoms = models.CharField(max_length=500)
-    advisedTest = models.CharField(max_length=250)
+    advisedTest = models.CharField(max_length=250,default=None,null=True,blank=True)
     disease = models.CharField(max_length=75)
     admitted = models.CharField(max_length=20, choices=aList, default='Not Required')
     aadharNo = models.ForeignKey(Patient,on_delete=models.CASCADE,to_field='aadharNo')
