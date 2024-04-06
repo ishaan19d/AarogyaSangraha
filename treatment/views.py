@@ -95,7 +95,9 @@ def hospital_dashboard_view(request,hospitalID):
 
 def patient_dashboard_view(request,aadharNo):
     patient=models.Patient.objects.get(aadharNo=aadharNo)
-    return render(request,'treatment/patient_dashboard.html',{'patient':patient})
+    treatments = models.Treatment.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-date','-time')
+    vitals = models.Vitals.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-date','-time')
+    return render(request,'treatment/patient_dashboard.html',{'patient':patient,'treatments':treatments,'vitals':vitals})
 
 def medical_practitioner_dashboard_view(request,medicalID):
     medical_practitioner=models.MedicalPractitioner.objects.get(medicalID=medicalID)
