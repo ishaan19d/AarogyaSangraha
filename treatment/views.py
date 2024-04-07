@@ -192,7 +192,9 @@ def add_treatment(request):
             return redirect('treatment:treatment_detail', tid=treatment.tid)
     else:
         form = forms.TreatmentForm()
-    return render(request, 'treatment/add_treatment.html', {'form': form})
+        medicineList = models.Medicine.objects.all()
+        patients = models.Patient.objects.all()
+    return render(request, 'treatment/add_treatment.html', {'form': form,'medicines':medicineList,'patients':patients})
 
 def treatment_detail(request, tid):
     treatment = get_object_or_404(models.Treatment, tid=tid)
