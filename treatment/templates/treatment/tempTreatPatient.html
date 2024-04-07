@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Patient Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'treatment/css/signup.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a href="{% url 'home' %}" class="navbar-brand ms-3">Aarogya Sangraha</a>
+        <div class="navbar">
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitalsignup' %}">Hospital Signup</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientsignup' %}">Patient Signup</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpracsignup' %}">Medical Practitioner
+                Signup</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminsignup' %}">Admin Signup</a>
+            {% if not user.is_authenticated %}
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogin' %}">Hospital Login</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogin' %}">Patient Login</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogin' %}">Medical Practitioner
+                Login</a>
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogin' %}">Admin Login</a>
+            {% else %}
+            {% if user.hospital %}
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogout' %}">Logout</a>
+            {% elif user.medicalpractitioner %}
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogout' %}">Logout</a>
+            {% elif user.patient %}
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogout' %}">Logout</a>
+            {% elif user.admin %}
+            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogout' %}">Logout</a>
+            {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+
+        <form class="well form-horizontal" action=" " method="post" id="contact_form">
+            {% csrf_token %}
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Treat Patient</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_symptoms">Symptoms:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="symptoms" class="form-control" type="text" maxlength="500" required
+                                id="id_symptoms">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_disease">Disease:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="disease" class="form-control" type="text" maxlength="75" required
+                                id="id_disease">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_advisedTest">AdvisedTest:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="advisedTest" class="form-control" type="text" maxlength="250"
+                                id="id_advisedTest">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Text input-->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_admitted">Admitted:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <select class="form-control" name="admitted" id="id_admitted">
+                                <option value="Yes">Yes</option>
+
+                                <option value="No">No</option>
+
+                                <option value="Not Required" selected>Not Required</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_aadharNo">Aadhar No:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <select class="form-control" name="aadharNo" data-live-search="true" required id="id_aadharNo">
+                                <option value="" selected>---------</option>
+
+                            <option value="342925908623">Bibhab Dasgupta (342925908623)</option>
+
+                            <option value="400229655776">Amit Ranjan (400229655776)</option>
+
+                            <option value="639239498732">Surender Singh (639239498732)</option>
+
+                            <option value="452753030878">Ashish Chanchalani (452753030878)</option>
+
+                            <option value="045689798375">shankar Singla (045689798375)</option>
+
+                            <option value="348659364583">Parul Sharma (348659364583)</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_treatmentCost">TreatmentCost:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="treatmentCost" class="form-control" type="number" id="id_treatmentCost" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="id_suggestions">Suggestions:</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="suggestions" class="form-control" type="text" id="id_suggestions" maxlength="500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Medicines</label>
+                    <div class="col-md-4 selectContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                            <select name="medicines" id="medicines" multiple>
+                                <option value="Brufen" id="id_medicines_0">Brufen (400mg)</option>
+                                <option value="Alprazolam" id="id_medicines_1">Alprazolam (1mg)</option>
+                                <option value="L-Hist" id="id_medicines_2">L-Hist (5mg)</option>
+                                <option value="Crocin" id="id_medicines_3">Crocin (650mg)</option>
+                                <option value="Dolo" id="id_medicines_4">Dolo (650mg)</option>
+                                <option value="Saridon" id="id_medicines_5">Saridon (500mg)</option>
+                                <option value="Nise" id="id_medicines_6">Nise (550mg)</option>
+                                <option value="Ultracet" id="id_medicines_7">Ultracet (350mg)</option>
+                                <option value="Avil" id="id_medicines_8">Avil (25mg)</option>
+                                <option value="Xyzal" id="id_medicines_9">Xyzal (5mg)</option>
+                                <option value="Alnor" id="id_medicines_10">Alnor (120mg)</option>
+                                <option value="Augmentin" id="id_medicines_11">Augmentin (625mg)</option>
+                                <option value="Azithral" id="id_medicines_12">Azithral (500mg)</option>
+                                <option value="Moxikind" id="id_medicines_13">Moxikind (400mg)</option>
+                                <option value="Bactoclav" id="id_medicines_14">Bactoclav (625mg)</option>
+                                <option value="Prozac" id="id_medicines_15">Prozac (20mg)</option>
+                                <option value="Daxid" id="id_medicines_16">Daxid (25mg)</option>
+                                <option value="Nexito" id="id_medicines_17">Nexito (10mg)</option>
+                                <option value="Folvite Active" id="id_medicines_18">Folvite Active (50mg)</option>
+                                <option value="Ecosprin" id="id_medicines_19">Ecosprin (150mg)</option>
+                                <option value="Xarelto" id="id_medicines_20">Xarelto (20mg)</option>
+                                <option value="Pradaxa" id="id_medicines_21">Pradaxa (5mg)</option>
+                                <option value="Amlopin" id="id_medicines_22">Amlopin (5mg)</option>
+                                <option value="Telma" id="id_medicines_23">Telma (40mg)</option>
+                                <option value="Olvance" id="id_medicines_24">Olvance (20mg)</option>
+                                <option value="Lotan" id="id_medicines_25">Lotan (50mg)</option>
+                                <option value="Burfen" id="id_medicines_26">Burfen (400mg)</option>
+                                <option value="Voveran" id="id_medicines_27">Voveran (100mg)</option>
+                                <option value="Movon" id="id_medicines_28">Movon (15mg)</option>
+                                <option value="Nimulid" id="id_medicines_29">Nimulid (100mg)</option>
+                                <option value="Zovirax" id="id_medicines_30">Zovirax (100mg)</option>
+                                <option value="Valcyte" id="id_medicines_31">Valcyte (800mg)</option>
+                                <option value="Hepbest" id="id_medicines_32">Hepbest (100mg)</option>
+                                <option value="Viracept" id="id_medicines_33">Viracept (250mg)</option>
+                                <option value="Lasix" id="id_medicines_34">Lasix (40mg)</option>
+                                <option value="Dytor" id="id_medicines_35">Dytor (40mg)</option>
+                                <option value="Hydrine" id="id_medicines_36">Hydrine (25mg)</option>
+                                <option value="Diamox" id="id_medicines_37">Diamox (25mg)</option>
+                                <option value="Pyrigesic" id="id_medicines_38">Pyrigesic (500mg)</option>
+                                <option value="Avil 25" id="id_medicines_39">Avil 25 (25mg)</option>
+                                <option value="Levocet" id="id_medicines_40">Levocet (625mg)</option>
+                                <option value="Moxikind CV" id="id_medicines_41">Moxikind CV (625mg)</option>
+                                <option value="Bactrab" id="id_medicines_42">Bactrab (375mg)</option>
+                                <option value="David-CD" id="id_medicines_43">David-CD (30mg)</option>
+                                <option value="Proscar" id="id_medicines_44">Proscar (30mg)</option>
+                                <option value="Ecoxtra" id="id_medicines_45">Ecoxtra (60mg)</option>
+                                <option value="Rivarl" id="id_medicines_46">Rivarl (15mg)</option>
+                                <option value="Stamlo" id="id_medicines_47">Stamlo (15mg)</option>
+                                <option value="Telmisal" id="id_medicines_48">Telmisal (80mg)</option>
+                                <option value="Disprin" id="id_medicines_49">Disprin (350mg)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-warning">Send <span
+                                class="glyphicon glyphicon-send"></span></button>
+                                <a href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"
+                        class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+    </div><!-- /.container -->
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('medicines')  // id
+    </script>
+</body>
+
+</html>
