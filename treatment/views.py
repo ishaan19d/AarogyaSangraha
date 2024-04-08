@@ -99,10 +99,49 @@ def patient_dashboard_view(request,aadharNo):
     vitals = models.Vitals.objects.filter(aadharNo=request.user.patient.get_aadharNo()).order_by('-date','-time')
     return render(request,'treatment/patient_dashboard.html',{'patient':patient,'treatments':treatments,'vitals':vitals})
 
-def medical_practitioner_dashboard_view(request,medicalID):
-    medical_practitioner=models.MedicalPractitioner.objects.get(medicalID=medicalID)
+def medical_practitioner_dashboard_view(request, medicalID):
+    medical_practitioner = models.MedicalPractitioner.objects.get(medicalID=medicalID)
     job_application = models.JobApplication.objects.filter(medical_practitioner=medical_practitioner, status='pending')
-    return render(request,'treatment/medprac_dashboard.html',{'medicalPractitioner':medical_practitioner, 'job_status': True if job_application else False})
+
+    # Retrieve data for dropdowns
+    patients = models.Patient.objects.all()
+    medicines = models.Medicine.objects.all()
+
+    if request.method == 'POST':
+        if request.user.medicalpractitioner.department != 'Nurse':
+            form = forms.TreatmentForm(request.POST)
+            if form.is_valid():
+                treatment = form.save(commit=False)
+                treatment.hospitalID = request.user.medicalpractitioner.hospitalID
+                treatment.medicalID = request.user.medicalpractitioner
+                treatment.save()
+
+                selected_medicines = form.cleaned_data['medicines']
+                for medicine in selected_medicines:
+                    models.Medicine_Treatment.objects.create(medName=medicine, tid=treatment)
+                return redirect('treatment:treatment_detail', tid=treatment.tid)
+        else:
+            form = forms.VitalsForm(request.POST)
+            if form.is_valid():
+                vitals = form.save(commit=False)
+                vitals.hospitalID = request.user.medicalpractitioner.hospitalID
+                vitals.save()
+                return redirect('treatment:add_vitals')
+    else:
+        if request.user.medicalpractitioner.department != 'Nurse':
+            form = forms.TreatmentForm()
+        else:
+            form = forms.VitalsForm()
+
+    context = {
+        'medicalPractitioner': medical_practitioner,
+        'job_status': True if job_application else False,
+        'patients': patients,
+        'medicines': medicines,
+        'form': form,
+    }
+
+    return render(request, 'treatment/medprac_dashboard.html', context)
 
 def admin_dashboard_view(request, username):
     user = User.objects.get(username=username)
@@ -194,7 +233,7 @@ def add_treatment(request):
         form = forms.TreatmentForm()
         medicineList = models.Medicine.objects.all()
         patients = models.Patient.objects.all()
-    return render(request, 'treatment/add_treatment.html', {'form': form,'medicines':medicineList,'patients':patients})
+    return render(request, 'treatment/medprac_dashboard.html', {'form': form,'medicines':medicineList,'patients':patients})
 
 def treatment_detail(request, tid):
     treatment = get_object_or_404(models.Treatment, tid=tid)
@@ -259,6 +298,7 @@ def medicine_list(request):
     medicines = models.Medicine.objects.all()
     return render(request, 'treatment/medicine_list.html', {'medicines': medicines})
 
+# need to add database access for aadhar
 @login_required
 def add_vitals(request):
     if request.method == 'POST':
