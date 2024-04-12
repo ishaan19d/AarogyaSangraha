@@ -56,4 +56,6 @@ urlpatterns = [
     path('requests-suspension-removal/', views.requests_suspension_removal, name='requests_suspension_removal'),
     path('suspension-removal/<str:medicalID>/', views.suspension_removal, name='suspension_removal'),
     path('suspension-permanent/<str:medicalID>',views.suspension_permanent,name='suspension_permanent'),
+
+    path('verifyTreatment', views.verify_treatment, name='verify_treatment'),
 ]
