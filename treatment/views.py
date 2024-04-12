@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponseRedirect
+import json
+from django.http import HttpResponseRedirect,JsonResponse
 from . import forms,models
 from django.contrib.auth.models import Group
 from .utils import get_login_redirect_url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def home_view(request):
     patient_count=models.Patient.objects.count()
@@ -339,3 +340,24 @@ def suspension_permanent(request, medicalID):
     medical_practitioner.status = 'Permanently Suspended'
     medical_practitioner.save()
     return redirect('treatment:requests_suspension_removal')
+
+@csrf_exempt
+def verify_treatment(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        treatment_id = data.get('treatmentId')
+        if treatment_id is not None:
+            try:
+                treatment = models.Treatment.objects.get(tid=treatment_id)
+                return JsonResponse({
+                    'message': 'Treatment verified!',
+                    'date': treatment.date.strftime('%d-%B-%Y'),
+                    'patient_name': treatment.aadharNo.user.first_name + ' ' + treatment.aadharNo.user.last_name,
+                    'hospital_name': treatment.hospitalID.user.first_name + ' ' + treatment.hospitalID.user.last_name,
+                    'department': treatment.medicalID.department,
+                    'doc_name': 'Dr. '+treatment.medicalID.user.first_name + ' ' + treatment.medicalID.user.last_name,
+                })
+            except:
+                return JsonResponse({'message': 'Treatment Forged!'})
+        else:
+            return JsonResponse({'message': 'No treatment ID provided'})
