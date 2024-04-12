@@ -4,6 +4,9 @@ from treatment import views
 from django.contrib.auth.views import LoginView,LogoutView
 app_name='treatment'
 urlpatterns = [
+    path('signup',views.signup,name='signup'),
+    path('login',views.login,name='login'),
+    
     path('hospitalsignup',views.hospital_signup_view,name='hospitalsignup'),
     path('hospitallogin',LoginView.as_view(template_name='treatment/hospitallogin.html'),name='hospitallogin'),
     path('hospitallogout',LogoutView.as_view(next_page='http://127.0.0.1:8000/'),name='hospitallogout'),

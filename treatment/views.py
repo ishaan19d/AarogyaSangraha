@@ -15,6 +15,12 @@ def home_view(request):
     mydict={'patient_count':patient_count,'medical_count':medical_count,'hospital_count':hospital_count}
     return render(request,'treatment/home.html',context=mydict)
 
+def signup(request):
+    return render(request,'treatment/signup.html')
+
+def login(request):
+    return render(request,'treatment/login.html')
+
 def hospital_signup_view(request):
     userForm=forms.HospitalUserForm()
     hospitalForm=forms.HospitalForm()
