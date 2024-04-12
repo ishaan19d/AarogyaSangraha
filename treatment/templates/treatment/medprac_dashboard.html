@@ -16,6 +16,11 @@
   <!-- for aadhar search feature  -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'treatment/css/medpracdash.css' %}">
+
+  <!-- font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -48,123 +53,125 @@
   </nav>
 
   <div class="container">
-    <p>This is med prac {{ medicalPractitioner.medicalID }}</p>
-    <p>This is his hos: {{ medicalPractitioner.hospitalID }}</p>
-    {% if medicalPractitioner.status == 'Suspended' %}
-    <p>You have been suspended, submit an application to judiciary to get back your license.</p>
-    {% elif medicalPractitioner.status == 'Permanently Suspended' %}
-    <p>Your medical License has been terminated.
-      <br>
-      Thanks for your black service.
-    </p>
-    {% elif job_status %}
-    <p>You have already applied for a job. Wait for the response!</p>
-    {% elif not medicalPractitioner.hospitalID_id %}
-    <a href="{% url 'treatment:send_job_application' %}">
-      <button class="btn btn-primary">Apply for Hospital</button>
-    </a>
+    <div class="headings">
+      <h1>Welcome Dr. {{ medicalPractitioner.user.first_name }} {{ medicalPractitioner.user.last_name }}</h1>
+      <h2>Medical Practitioner ID: {{ medicalPractitioner.medicalID }}</h2>
+      <h2>Hospital: {{ medicalPractitioner.hospitalID }}</h2>
+      {% if medicalPractitioner.status == 'Suspended' %}
+      <h1>You have been suspended, submit an application to judiciary to get back your license.</h1>
+      {% elif medicalPractitioner.status == 'Permanently Suspended' %}
+      <h1>Your medical License has been terminated.
+      </h1>
+      {% elif job_status %}
+      <h1>You have already applied for a job. Wait for the response!</h1>
+      {% elif not medicalPractitioner.hospitalID_id %}
+      <a href="{% url 'treatment:send_job_application' %}">
+        <button class="btn btn-primary">Apply for Hospital</button>
+      </a>
+    </div>
+
     {% else %}
     {% if medicalPractitioner.department == 'Nurse' %}
-    <div class="container">
+    <div class="vitals">
       <form class="well form-horizontal" action=" " method="post" id="contact_form">
-          {% csrf_token %}
-          <fieldset>
-              <!-- Form Name -->
-              <legend>Add Vitals</legend>
+        {% csrf_token %}
+        <fieldset>
+          <!-- Form Name -->
+          <legend>Add Vitals</legend>
 
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_aadharNo">Aadhar No:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <select class="form-control select2" name="aadharNo" required id="id_aadharNo">
-                          <option value="" selected>Select Patient</option>
-                          {% for patient in patients %}
-                          <option value="{{patient.aadharNo}}">{{patient}}</option>
-                          {% endfor %}
-                      </select>
-                  </div>
-              </div>
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_pulse">Pulse:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="pulse" class="form-control" type="number" required id="id_pulse">
-                  </div>
-              </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_aadharNo">Aadhar No:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <select class="form-control select2" name="aadharNo" required id="id_aadharNo">
+                <option value="" selected>Select Patient</option>
+                {% for patient in patients %}
+                <option value="{{patient.aadharNo}}">{{patient}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_pulse">Pulse:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="pulse" class="form-control" type="number" required id="id_pulse">
+            </div>
+          </div>
 
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_bp_High">Bp High:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="bp_High" class="form-control" type="number" required id="id_bp_High">
-                  </div>
-              </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_bp_High">Bp High:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="bp_High" class="form-control" type="number" required id="id_bp_High">
+            </div>
+          </div>
 
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_bp_high">Bp Low:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="bp_low" class="form-control" type="number" required id="id_bp_low">
-                  </div>
-              </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_bp_high">Bp Low:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="bp_low" class="form-control" type="number" required id="id_bp_low">
+            </div>
+          </div>
 
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_spO2">SpO2:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="spO2" class="form-control" type="number" required id="id_spO2">
-                  </div>
-              </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_spO2">SpO2:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="spO2" class="form-control" type="number" required id="id_spO2">
+            </div>
+          </div>
 
 
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_weight">Weight:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="weight" class="form-control" step="0.01" type="number" required id="id_weight">
-                  </div>
-              </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_weight">Weight:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="weight" class="form-control" step="0.01" type="number" required id="id_weight">
+            </div>
+          </div>
 
-              <!-- Text input-->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_bsa">BSA:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="bsa" class="form-control" step="0.01" type="number" required id="id_bsa">
-                  </div>
-              </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_bsa">BSA:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="bsa" class="form-control" step="0.01" type="number" required id="id_bsa">
+            </div>
+          </div>
 
-              <!-- Select Basic -->
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_bmi">BMI:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="bmi" class="form-control" step="0.01" type="number" required id="id_bmi">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_glucose">Glucose:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="glucose" class="form-control" type="number" required id="id_glucose">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="col-md-4 control-label" for="id_abnormalities">Abnormalities:</label>
-                  <div class="col-md-4 inputGroupContainer">
-                      <input name="abnormalities" class="form-control" type="text" maxlength="100" id="id_abnormalities">
-                  </div>
-              </div>
-              <!-- Button -->
-              <div class="form-group">
-                  <label class="col-md-4 control-label"></label>
-                  <div class="col-md-4">
-                      <button type="submit" class="btn btn-warning">Submit <span
-                              class="glyphicon glyphicon-send"></span></button>
-                  </div>
-              </div>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_bmi">BMI:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="bmi" class="form-control" step="0.01" type="number" required id="id_bmi">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_glucose">Glucose:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="glucose" class="form-control" type="number" required id="id_glucose">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="id_abnormalities">Abnormalities:</label>
+            <div class="col-md-4 inputGroupContainer">
+              <input name="abnormalities" class="form-control" type="text" maxlength="100" id="id_abnormalities">
+            </div>
+          </div>
+          <!-- Button -->
+          <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-warning">Submit <span
+                  class="glyphicon glyphicon-send"></span></button>
+            </div>
+          </div>
 
-          </fieldset>
+        </fieldset>
       </form>
-  </div>
+    </div>
     {% else %}
-    <div class="container">
+    <div class="treat">
 
       <form class="well form-horizontal" action=" " method="post" id="contact_form">
         {% csrf_token %}
@@ -254,8 +261,6 @@
             <div class="col-md-4">
               <button type="submit" class="btn btn-warning">Submit <span
                   class="glyphicon glyphicon-send"></span></button>
-              <a href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"
-                class="btn btn-secondary">Back to Dashboard</a>
             </div>
           </div>
 
