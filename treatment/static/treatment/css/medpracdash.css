@@ -79,6 +79,7 @@
   background: 0 0;
   background-image: none;
   -webkit-appearance: none;
+  appearance: none;
   text-transform: none;
   margin: 0
 }
