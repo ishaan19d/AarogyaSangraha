@@ -18,7 +18,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 .grad-bar {
@@ -26,7 +26,7 @@ body {
     /* Full width */
     height: 5px;
     /* Adjust as needed */
-    z-index: 1001;
+    z-index: 9999;
     background: -webkit-linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
     background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
     background-size: 400% 400%;

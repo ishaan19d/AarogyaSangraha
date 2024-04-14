@@ -2,13 +2,10 @@
 
 body {
     font-family: 'Poppins', sans-serif, Arial;
-    background-color: #fff;
-    /* White background */
-    color: #000;
-    /* Black text */
-    text-align: center;
     margin: 0;
-    padding: 0;
+    padding-top: 100px;
+    background-color: #f2f2f2;
+    color: #333;
 }
 
 * {
@@ -41,8 +38,11 @@ i {
 
 .grad-bar {
     width: 100%;
+    /* Full width */
     height: 5px;
-    z-index: 1001;
+    /* Adjust as needed */
+    z-index: 2000;
+    /* Increase z-index */
     background: -webkit-linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
     background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
     background-size: 400% 400%;
@@ -51,7 +51,9 @@ i {
     -o-animation: gradbar 7.5s ease infinite;
     animation: gradbar 7.5s ease infinite;
     position: fixed;
+    /* Fix the grad-bar at the top of the page */
     top: 0;
+    /* Position at the top */
 }
 
 @-webkit-keyframes gradbar {
@@ -158,72 +160,33 @@ i {
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.previousVitals {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-h1 {
-    color: #000;
-    /* Black heading */
-}
-
-.vitals {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     margin-top: 20px;
 }
 
-.circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #000;
-    /* Black circle */
+.card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: #007bff;
     color: #fff;
-    /* White text */
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    line-height: 1.4;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 10px 15px;
 }
 
-.value {
-    font-size: 1.0em;
-    /* Larger font size for the value */
+.card-body {
+    padding: 20px;
 }
 
-.name {
-    font-size: 0.8em;
-    /* Smaller font size for the name */
-}
-
-p {
-    font-size: 18px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #f2f2f2;
+.btn {
+    border-radius: 25px;
 }
