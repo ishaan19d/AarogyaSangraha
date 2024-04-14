@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+import datetime
+from django.db.models import Count
+
 # Create your views here.
 def home_view(request):
     patient_count=models.Patient.objects.count()
@@ -98,7 +101,11 @@ def admin_signup_view(request):
     
 def hospital_dashboard_view(request,hospitalID):
     hospital=models.Hospital.objects.get(hospitalID=hospitalID)
-    return render(request,'treatment/hospital_dashboard.html',{'hospital':hospital})
+    medPracCount = models.MedicalPractitioner.objects.filter(hospitalID=hospitalID).count()
+    today = datetime.date.today()
+    monthlyTreatment = models.Treatment.objects.filter(hospitalID=hospitalID, date__year=today.year, date__month=today.month).count()
+    job_applications = models.JobApplication.objects.filter(hospital=hospitalID)
+    return render(request,'treatment/hospital_dashboard.html',{'hospital':hospital,'medPracCount':medPracCount,'monthlyTreatment':monthlyTreatment,'job_applications':job_applications})
 
 def patient_dashboard_view(request,aadharNo):
     patient=models.Patient.objects.get(aadharNo=aadharNo)
@@ -174,8 +181,8 @@ def send_job_application(request):
                 hospital=hospital,
                 experience=experience
             )
-            messages.success(request, 'Your job application has been sent successfully.')
-            return redirect('treatment:application_sent')
+            success_message = 'Your job application has been sent successfully.'
+            return render(request, 'treatment/send_job_application.html', {'form': form, 'success_message': success_message})
     else:
         form = forms.JobApplicationForm()
     return render(request, 'treatment/send_job_application.html', {'form': form})
@@ -195,7 +202,7 @@ def process_job_application(request, application_id):
         elif status == 'reject':
             job_application.status = 'rejected'
         job_application.save()
-        return redirect('treatment:job_applications')
+        return redirect('treatment:hospital_dashboard', hospitalID=job_application.hospital.hospitalID)
     return render(request, 'treatment/process_job_application.html', {'job_application': job_application})
 
 @login_required
@@ -361,3 +368,11 @@ def verify_treatment(request):
                 return JsonResponse({'message': 'Treatment Forged!'})
         else:
             return JsonResponse({'message': 'No treatment ID provided'})
+
+def hospital_medpraclist(request, hospitalID):
+    medical_practitioners = models.MedicalPractitioner.objects.filter(
+        hospitalID=hospitalID
+    ).annotate(
+        patients_treated=Count('treatment')
+    )
+    return render(request, 'treatment/hospital_medPrac.html', {'medical_practitioners': medical_practitioners})

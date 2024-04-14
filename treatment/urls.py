@@ -58,4 +58,6 @@ urlpatterns = [
     path('suspension-permanent/<str:medicalID>',views.suspension_permanent,name='suspension_permanent'),
 
     path('verifyTreatment', views.verify_treatment, name='verify_treatment'),
+
+    path('hospital_medpraclist/<str:hospitalID>', views.hospital_medpraclist, name='hospital_medpraclist'),
 ]

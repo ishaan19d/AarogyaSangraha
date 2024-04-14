@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.info-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.info-item {
+    padding: 20px;
+    text-align: center;
+    margin: 0 20px;
+}
+
+.info-item .circle {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    border-radius: 50%;
+    color: white;
+    line-height: 50px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.data-section {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+.data-container {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 45%;
+    height: 400px;
+}
+
+.data-container h2 {
+    margin-top: 0;
+}
+
+.scrollable-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.scrollable-list li {
+    padding: 10px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+#heading{
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 20px;
+}
