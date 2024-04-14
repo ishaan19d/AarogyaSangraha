@@ -1,112 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
 body {
-     font-family: 'Poppins', sans-serif, Arial;
+     font-family: monospace, sans-serif, Arial;
      margin: 0;
      padding: 0;
      overflow-x: hidden;
 }
-body .navbar {
-     font-family: "Space Mono", monospace; /* Add this line */
+
+#mainNav.navbar {
+     position: fixed;
+     font-family: monospace !important;
      padding-right: 10px;
      padding-left: 15px;
      display: flex;
      justify-content: space-between;
      align-items: center;
-     position: fixed;
      top: 0;
      width: 100%;
-     z-index: 1002;
- }
- .grad-bar-container {
-     position: fixed;
-     top: 0;
-     left: 0;
-     right: 0;
-     z-index: 1001;
- }
- 
- .grad-bar {
+     z-index: 1000;
+}
+
+.grad-bar {
      width: 100%;
+     /* Full width */
      height: 5px;
+     /* Adjust as needed */
+     z-index: 1001;
+     background: -webkit-linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
      background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
      background-size: 400% 400%;
      -webkit-animation: gradbar 7.5s ease infinite;
      -moz-animation: gradbar 7.5s ease infinite;
+     -o-animation: gradbar 7.5s ease infinite;
      animation: gradbar 7.5s ease infinite;
- }
-   
-   @-webkit-keyframes gradbar {
+     position: fixed;
+     /* Fix the grad-bar at the top of the page */
+     top: 0;
+     /* Position at the top */
+}
+
+@-webkit-keyframes gradbar {
      0% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   
+
      50% {
-       background-position: 100% 50%
+          background-position: 100% 50%
      }
-   
+
      100% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   }
-   
-   @-moz-keyframes gradbar {
+}
+
+@-moz-keyframes gradbar {
      0% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   
+
      50% {
-       background-position: 100% 50%
+          background-position: 100% 50%
      }
-   
+
      100% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   }
-   
-   @keyframes gradbar {
+}
+
+@keyframes gradbar {
      0% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   
+
      50% {
-       background-position: 100% 50%
+          background-position: 100% 50%
      }
-   
+
      100% {
-       background-position: 0% 50%
+          background-position: 0% 50%
      }
-   }
-   
-   /*----------bootstrap-navbar-css------------*/
-   .navbar-logo {
+}
+
+/*----------bootstrap-navbar-css------------*/
+.navbar-logo {
      padding: 15px;
      color: #fff;
-   }
-   
-   .navbar-mainbg {
+}
+
+.navbar-mainbg {
      background-color: #5161ce;
      padding: 0px;
-   }
-   
-   #navbarSupportedContent {
+     font-family: monospace !important;
+}
+
+#navbarSupportedContent {
      overflow: hidden;
      position: relative;
-   }
-   
-   #navbarSupportedContent ul {
+}
+
+#navbarSupportedContent ul {
      padding: 0px;
      margin: 0px;
-   }
-   
-   #navbarSupportedContent ul li a i {
+}
+
+#navbarSupportedContent ul li a i {
      margin-right: 10px;
-   }
-   
-   #navbarSupportedContent li {
+}
+
+#navbarSupportedContent li {
      list-style-type: none;
      float: left;
-   }
-   
-   #navbarSupportedContent ul li a {
+}
+
+#navbarSupportedContent ul li a {
+     font-family: monospace !important;
      color: rgba(255, 255, 255, 0.5);
      text-decoration: none;
      font-size: 15px;
@@ -115,38 +123,38 @@ body .navbar {
      transition-duration: 0.6s;
      transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
      position: relative;
-   }
-   
-   #navbarSupportedContent>ul>li.active>a {
+}
+
+#navbarSupportedContent>ul>li.active>a {
      color: #5161ce;
      background-color: transparent;
      transition: all 0.7s;
-   }
-   
-   #navbarSupportedContent a:not(:only-child):after {
+}
+
+#navbarSupportedContent a:not(:only-child):after {
      content: "\f105";
      position: absolute;
      right: 20px;
      top: 10px;
      font-size: 14px;
-     font-family: "Font Awesome 5 Free";
+     font-family: monospace !important;
      display: inline-block;
      padding-right: 3px;
      vertical-align: middle;
      font-weight: 900;
      transition: 0.5s;
-   }
-   
-   #navbarSupportedContent .active>a:not(:only-child):after {
-     transform: rotate(90deg);
-   }
+}
 
- @media (max-width: 1200px) {
+#navbarSupportedContent .active>a:not(:only-child):after {
+     transform: rotate(90deg);
+}
+
+@media (max-width: 1200px) {
      .options-container {
-         flex-wrap: wrap;
-         justify-content: center;
+          flex-wrap: wrap;
+          justify-content: center;
      }
- }
+}
 
 .main-bg::after {
      background-color: #fef5e4;
@@ -174,7 +182,7 @@ body .navbar {
      background-color: #5d4ef3;
      border-radius: 0 70px;
      box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
-     
+
 
 }
 
@@ -273,15 +281,7 @@ body .navbar {
 }
 
 
-/**********loginform*/
-body,
-html {
-     height: 100%;
-     font-family: Ubuntu-Regular, sans-serif
-}
-
 a {
-     font-family: Ubuntu-Regular;
      font-size: 14px;
      line-height: 1.7;
      color: #666;
@@ -416,17 +416,22 @@ iframe {
      color: #57b846;
      line-height: 1.4;
      text-transform: uppercase;
-     cursor: pointer; /* Add cursor pointer to make it clickable */
-     position: relative; /* Ensure the link has a position */
-     z-index: 2; /* Ensure the link appears above other elements */
- }
- 
- /* Add hover effect for better user experience */
- .txt3:hover {
-     color: #388e3c; /* Change color on hover */
-     text-decoration: underline; /* Add underline on hover */
- }
- 
+     cursor: pointer;
+     /* Add cursor pointer to make it clickable */
+     position: relative;
+     /* Ensure the link has a position */
+     z-index: 2;
+     /* Ensure the link appears above other elements */
+}
+
+/* Add hover effect for better user experience */
+.txt3:hover {
+     color: #388e3c;
+     /* Change color on hover */
+     text-decoration: underline;
+     /* Add underline on hover */
+}
+
 
 .limiter {
      width: 100%;
@@ -451,26 +456,31 @@ iframe {
 }
 
 .wrap-login100 {
-    width: 450px;
-    background: rgba(255, 255, 255, 0.5); /* Translucent background */
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
-    height: 450px;
-    margin: 30px auto;
-    position: relative; /* Add position relative */
+     width: 450px;
+     background: rgba(255, 255, 255, 0.5);
+     /* Translucent background */
+     border-radius: 20px;
+     overflow: hidden;
+     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+     /* Shadow effect */
+     height: 450px;
+     margin: 30px auto;
+     position: relative;
+     /* Add position relative */
 }
 
 /* Remove the border */
 .wrap-login100::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px; /* Match the border radius */
-    box-shadow: inset 0px 0px 0px 1px #020202; /* Add a 1px shadow to simulate the border */
+     content: '';
+     position: absolute;
+     top: 0;
+     right: 0;
+     width: 100%;
+     height: 100%;
+     border-radius: 20px;
+     /* Match the border radius */
+     box-shadow: inset 0px 0px 0px 1px #020202;
+     /* Add a 1px shadow to simulate the border */
 }
 
 .login100-form {
@@ -504,7 +514,7 @@ iframe {
 }
 
 .input100 {
-     font-family:sans-serif;
+     font-family: sans-serif;
      font-size: 15px;
      color: #1b3815;
      line-height: 1.2;
@@ -605,9 +615,13 @@ iframe {
      display: flex;
      align-items: center;
      height: 100%;
- }
+}
 
- .login100-form-btn {
+#quote {
+     font-family: Ubuntu-Regular;
+}
+
+.login100-form-btn {
      display: -webkit-box;
      display: -ms-flexbox;
      display: flex;
@@ -631,15 +645,19 @@ iframe {
      -webkit-transition: all .4s;
      -o-transition: all .4s;
      transition: all .4s;
-     cursor: pointer; /* Add cursor pointer to make it clickable */
-     position: relative; /* Ensure the button has a position */
-     z-index: 2; /* Ensure the button appears above other elements */
- }
- 
- /* Add hover effect for better user experience */
- .login100-form-btn:hover {
-     background-color: #3f3da8; /* Change background color on hover */
- }
+     cursor: pointer;
+     /* Add cursor pointer to make it clickable */
+     position: relative;
+     /* Ensure the button has a position */
+     z-index: 2;
+     /* Ensure the button appears above other elements */
+}
+
+/* Add hover effect for better user experience */
+.login100-form-btn:hover {
+     background-color: #3f3da8;
+     /* Change background color on hover */
+}
 
 .text-right {
      text-align: right !important;
@@ -658,16 +676,16 @@ iframe {
      width: 65%;
      text-align: center;
      -ms-flex-line-pack: center;
-         align-content: center;
+     align-content: center;
      text-transform: uppercase;
      line-height: 50px;
      margin-top: 150px;
-     margin-left:150px ;
+     margin-left: 150px;
      /* margin: auto 0;  */
-     font-size: 20px; 
+     font-size: 20px;
      letter-spacing: 4px;
-     
- }
+
+}
 
 
 @media only screen and (max-width: 600px) {
@@ -727,4 +745,3 @@ iframe {
           width: 90%;
      }
 }
-

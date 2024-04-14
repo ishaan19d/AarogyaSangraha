@@ -37,28 +37,28 @@
           <div class="right"></div>
         </div>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'treatment:signup' %}"><i class="fas fa-user"></i>Signup</a>
+          <a class="nav-link active" href="{% url 'treatment:signup' %}"><i class="fas fa-user"></i> Signup</a>
         </li>
         {% if not user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt"></i>Login</a>
+          <a class="nav-link " href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
         </li>
         {% else %}
         {% if user.hospital %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </li>
         {% elif user.medicalpractitioner %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </li>
         {% elif user.patient %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </li>
         {% elif user.admin %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </li>
         {% endif %}
         {% endif %}

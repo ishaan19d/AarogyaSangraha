@@ -113,16 +113,18 @@
         }
 
         .grad-bar {
-            width: 100%; /* Full width */
-            height: 5px; /* Adjust as needed */
-            z-index: 1001;
-            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-            background-size: 400% 400%;
-            -webkit-animation: gradbar 7.5s ease infinite;
-            -moz-animation: gradbar 7.5s ease infinite;
-            animation: gradbar 7.5s ease infinite;
-            position: fixed; /* Fix the grad-bar at the top of the page */
-            top: 0; /* Position at the top */
+          width: 100%; /* Full width */
+          height: 5px; /* Adjust as needed */
+          z-index: 1001;
+          background: -webkit-linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+          background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+          background-size: 400% 400%;
+          -webkit-animation: gradbar 7.5s ease infinite;
+          -moz-animation: gradbar 7.5s ease infinite;
+          -o-animation: gradbar 7.5s ease infinite;
+          animation: gradbar 7.5s ease infinite;
+          position: fixed; /* Fix the grad-bar at the top of the page */
+          top: 0; /* Position at the top */
         }
           
           @-webkit-keyframes gradbar {
