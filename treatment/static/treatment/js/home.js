@@ -1,3 +1,4 @@
+
 const circularProgressElements = document.querySelectorAll('.circular-progress-1, .circular-progress-2, .circular-progress-3');
 
 const observer = new IntersectionObserver(entries => {
