@@ -1,64 +1,61 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aarogya Sangraha</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <style>
-    body {
-      background-color: #f8f9fa;
-      font-family: 'Roboto', sans-serif;
-    }
-    .navbar {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
-    .container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 2rem;
-    }
-    h1, h2 {
-      color: #343a40;
-      font-weight: 700;
-    }
-    .btn {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+  <link k rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+  <link rel="stylesheet" href="{% static 'treatment/css/process_job_application.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <a href="{% url 'home' %}" class="navbar-brand ms-3">Aarogya Sangraha</a>
-        <div class="navbar">
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitalsignup' %}">Hospital Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientsignup' %}">Patient Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpracsignup' %}">Medical Practitioner Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminsignup' %}">Admin Signup</a>
-            {% if not user.is_authenticated %}
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogin' %}">Hospital Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogin' %}">Patient Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogin' %}">Medical Practitioner Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogin' %}">Admin Login</a>
-            {% else %}
-                {% if user.hospital %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogout' %}">Logout</a>
-                {% elif user.medicalpractitioner %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogout' %}">Logout</a>
-                {% elif user.patient %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogout' %}">Logout</a>
-                {% elif user.admin %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogout' %}">Logout</a>
-                {% endif %}
-            {% endif %}
+  <div class="grad-bar"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">Aarogya Sangraha</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <div class="hori-selector">
+          <div class="left"></div>
+          <div class="right"></div>
         </div>
-    </nav>
+        {% if user.hospital %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i class="fas fa-desktop"></i></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.medicalpractitioner %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.patient %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.admin %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
   <div class="container my-5">
     <h1 class="text-center mb-4">Recruitment: {{ job_application.hospital }}</h1>
     {% if job_application.status == 'pending' %}
