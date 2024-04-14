@@ -4,100 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treatment Record</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'treatment/css/treatment_detail.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            background-color: #f8f9fa;
-        }
-        h1 {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 4em;
-            color: #333;
-        }
-        h2 {
-            text-align: center;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #555;
-        }
-        h3 {
-            text-align: center;
-            margin-top: 3px;
-            margin-bottom: 40px;
-            font-weight: bold;
-            border-bottom: 5px solid #333;
-            margin-left: 10%;
-            margin-right: 10%;
-            color: #555;
-        }
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-        th, td {
-            padding: 15px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-        .back-link {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .back-link a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .back-link a:hover {
-            background-color: #555;
-        }
-    </style>
+
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <a href="{% url 'home' %}" class="navbar-brand ms-3">Aarogya Sangraha</a>
-        <div class="navbar">
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitalsignup' %}">Hospital Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientsignup' %}">Patient Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpracsignup' %}">Medical Practitioner Signup</a>
-            <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminsignup' %}">Admin Signup</a>
-            {% if not user.is_authenticated %}
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogin' %}">Hospital Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogin' %}">Patient Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogin' %}">Medical Practitioner Login</a>
-                <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogin' %}">Admin Login</a>
-            {% else %}
-                {% if user.hospital %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:hospitallogout' %}">Logout</a>
-                {% elif user.medicalpractitioner %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:medpraclogout' %}">Logout</a>
-                {% elif user.patient %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:patientlogout' %}">Logout</a>
-                {% elif user.admin %}
-                    <a class="nav-item nav-link text-light me-3" href="{% url 'treatment:adminlogout' %}">Logout</a>
-                {% endif %}
-            {% endif %}
+    <div class="grad-bar"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">Aarogya Sangraha</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <div class="hori-selector">
+          <div class="left"></div>
+          <div class="right"></div>
         </div>
-    </nav>
+        {% if user.hospital %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i class="fas fa-desktop"></i></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.medicalpractitioner %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.patient %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% elif user.admin %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
     <h1>{{ treatment.hospitalID.user.first_name }} {{ treatment.hospitalID.user.last_name }}</h1>
     <h2>Hospital ID: {{ treatment.hospitalID.hospitalID }}</h2>
     <h3>{{ treatment.hospitalID.address }}, {{ treatment.hospitalID.city }}, {{ treatment.hospitalID.state }}, Pincode: {{ treatment.hospitalID.pincode }}</h3>
