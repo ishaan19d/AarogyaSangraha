@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+.swal2-popup {
+  font-family: 'Your Font', sans-serif !important;
+  }
 .navbar {
   font-family: "Space Mono", monospace;
   padding-right: 10px;
