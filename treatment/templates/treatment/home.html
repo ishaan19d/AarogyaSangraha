@@ -1,16 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <link k rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+  <title>Aarogya Sangraha</title>
   <link rel="stylesheet" href="{% static 'treatment/css/home.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link k rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <title>Home</title>
+  <style>
+    /* CSS for side by side paragraphs */
+    #para1, #para2 {
+      display: inline-block;
+      width: calc(45% - 5px); /* Adjust width as needed */
+      margin-right: 5px; /* Adjust spacing between paragraphs */
+      vertical-align: top; /* Align paragraphs at the top */
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
 </head>
-
 <body>
   <div class="grad-bar"></div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -26,121 +35,107 @@
           <div class="right"></div>
         </div>
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="enterTreatmentId(); return false;"><i class="fas fa-key"></i></i>Verify</a>
+          <a class="nav-link" href="#" onclick="enterTreatmentId(); return false;"><i class="fas fa-key small-icon"></i></i> Verify</a>
         </li>
         {% if not user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:signup' %}"><i class="fas fa-user"></i>Signup</a>
+          <a class="nav-link" href="{% url 'treatment:signup' %}"><i class="fas fa-user small-icon"></i> Signup</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt"></i>Login</a>
+          <a class="nav-link" href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt small-icon"></i> Login</a>
         </li>
         {% else %}
         {% if user.hospital %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i class="fas fa-desktop"></i></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i class="fas fa-desktop small-icon"></i></i> Back To Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt small-icon"></i> Logout</a>
         </li>
         {% elif user.medicalpractitioner %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i class="fas fa-desktop small-icon"></i> Back To Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt small-icon"></i> Logout</a>
         </li>
         {% elif user.patient %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i class="fas fa-desktop small-icon"></i> Back To Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt small-icon"></i> Logout</a>
         </li>
         {% elif user.admin %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i class="fas fa-desktop"></iBack To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i class="fas fa-desktop small-icon"></i> Back To Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt small-icon"></i> Logout</a>
         </li>
         {% endif %}
         {% endif %}
       </ul>
     </div>
   </nav>
-  <div class="section" id="company-name" data-value="AAROGYA SANGARAHA">
-    AAROGYA SANGARAHA
-  </div>
-  <div class="container">
-    <div class="progress-row">
-      <div class="circular-progress-1">
-        <span class="progress-value-1">0</span>
+  <header>
+    <h1 class="name" data-value = "AAROGYA SANGRAHA">AAROGYA SANGRAHA</h1>
+  </header>
+  <div>
+    <div class="parent-para">
+      <div id="inov"><h2 style="font-size: 55px ;">Innovatively Yours</h2></div>
+      <div class="para-section">
+        <div class="para">
+          <p>Welcome to Aarogya Sangraha, the future of medical data. We combine cutting-edge tech -nology with an uncompromising commitment to healthcare.</p>
+        </div>
+        <div class="para">
+          <p>Providing you with the most modern, efficient, and foolproof system for all your medical database management needs. It’s not magic, just what you deserve!</p>
+        </div>
       </div>
-      <span class="text">Patients</span>
     </div>
-    <div class="progress-row">
-      <div class="circular-progress-2">
-        <span class="progress-value-2">0</span>
+    <div id="number-section">
+      <div class="container">
+        <div id="rect">
+          <h1 style="font-size: 60px;">{{hospital_count}}+</h1>
+          <p style="font-size: 25px;">hospitals trust us with their data management</p>
+        </div>
+        <div id="square">
+          <i class="fa-solid fa-hospital"></i>
+        </div>
       </div>
-      <span class="text">Doctors on Duty</span>
-    </div>
-    <div class="progress-row">
-      <div class="circular-progress-3">
-        <span class="progress-value-3">0</span>
+      <div class="container">
+        <div id="square">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+        <div id="rect">
+          <h1 style="font-size: 60px;">{{medical_count}}+</h1>
+          <p style="font-size: 25px;">doctors supporting us</p>
+        </div>
       </div>
-      <span class="text">Hospitals Serving</span>
+      <div class="container">
+        <div id="rect">
+          <h1 style="font-size: 60px;">{{patient_count}}+</h1>
+          <p style="font-size: 25px;">patient records securely stored and efficiently managed</p>
+        </div>
+        <div id="square">
+          <i class="fa-solid fa-user-injured"></i>
+        </div>
+      </div>
     </div>
+    <div class="footer-para">
+      <div id="inov"><h2 style="font-size: 60px;">Impressively Simple</h2></div>
+      <div class="para-section">
+          <p style="font-size: 25px;margin-bottom: 50px;">Our robust platform ensures a hassle-free experience, providing a seamless and secure management system for medical records.</p>
+      </div>
+    </div>
+    <footer>
+      <div style="margin-top: 30px;" class="footer-bottom">
+        <h3>About Us</h3>
+        <p style="margin-bottom: 40px;">Welcome to Aarogya Sangraha. We're not just your average database wizards, we're the superheroes of healthcare technology.<br> So sit back, relax, and let us handle the data while you focus on saving lives. Trust us, we've got this!</p>
+        <p>&copy; 2024, All rights reserved by AAROGYA SANGRAHA.</p>
+      </div>
+    </footer>
   </div>
-  <div class="section" id="slogan">
-    We keep it safe for you
-  </div>
+  <script src="{% static 'treatment/js/home.js' %}"></script>
 </body>
-<script>
-  var patientCount = "{{ patient_count }}";
-  var hospitalCount = "{{ hospital_count }}";
-  var medicalCount = "{{ medical_count }}";
-  async function enterTreatmentId() {
-    const treatmentId = prompt("Please enter the treatment ID:");
-    if (treatmentId) {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/treatment/verifyTreatment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ 'treatmentId': treatmentId })
-            });
-
-            const data = await response.json();
-
-            if (data.message === 'Treatment verified!') {
-                Swal.fire({
-                    title: 'Treatment verified!',
-                    html: `Date: ${data.date}<br>Patient Name: ${data.patient_name}<br>Hospital Visited: ${data.hospital_name}<br>Department Concerned: ${data.department}<br>Treated By: ${data.doc_name}`,
-                    icon: 'success'
-                });
-            } else {
-                Swal.fire({
-                    title: 'Forged!',
-                    text: data.message,
-                    icon: 'error'
-                });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                title: 'Forged!',
-                text: data.message,
-                icon: 'error'
-            });
-        }
-    }
-}
-</script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
-<script src="{% static 'treatment/js/home.js' %}"></script>
 </html>
