@@ -72,13 +72,13 @@
             <fieldset>
 
                 <!-- Form Name -->
-                <legend>Add Medicine</legend>
+                <legend>Update Medicine</legend>
 
                 <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="id_medName">MedName:</label>
                     <div class="col-md-4 inputGroupContainer">
-                        <input name="medName" class="form-control" type="text" maxlength="100" required id="id_medName">
+                        <input name="medName" class="form-control" type="text" maxlength="100" required id="id_medName" value="{{ medicine.medName }}">
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="id_company">Company:</label>
                     <div class="col-md-4 inputGroupContainer">
-                        <input name="company" class="form-control" type="text" maxlength="50" required id="id_company">
+                        <input name="company" class="form-control" type="text" maxlength="50" required id="id_company" value="{{ medicine.company }}">
                     </div>
                 </div>
 
@@ -96,48 +96,28 @@
                     <label class="col-md-4 control-label" for="id_type_med">Type Med:</label>
                     <div class="col-md-4 inputGroupContainer">
                         <select class="form-control select2" name="type_med" required id="id_type_med">
-                            <option value="" selected>Select Type</option>
-                            <option value="Antipyretic">Antipyretic</option>
-
-                            <option value="Analgesic">Analgesic</option>
-
-                            <option value="Antihistamine">Antihistamine</option>
-
-                            <option value="Antibiotic">Antibiotic</option>
-
-                            <option value="Antidepressant">Antidepressant</option>
-
-                            <option value="Anticoagulant">Anticoagulant</option>
-
-                            <option value="Antihypertensive">Antihypertensive</option>
-
-                            <option value="Anti-inflammatory">Anti-inflammatory</option>
-
-                            <option value="Antiviral">Antiviral</option>
-
-                            <option value="Diuretic">Diuretic</option>
-
-                            <option value="Antifungal">Antifungal</option>
-
-                            <option value="Antiemetic">Antiemetic</option>
-
-                            <option value="Anticonvulsant">Anticonvulsant</option>
-
-                            <option value="Bronchodilator">Bronchodilator</option>
-
-                            <option value="Muscle Relaxant">Muscle Relaxant</option>
-
-                            <option value="Laxative">Laxative</option>
-
-                            <option value="Antacid">Antacid</option>
-
-                            <option value="Hormone Replacement Therapy (HRT)">Hormone Replacement Therapy (HRT)</option>
-
-                            <option value="Immunosuppressant">Immunosuppressant</option>
-
-                            <option value="Antimigraine">Antimigraine</option>
-
-                            <option value="Antidiabetic">Antidiabetic</option>
+                            <option value="" {% if not medicine.type_med %}selected{% endif %}>Select Type</option>
+                            <option value="Antipyretic" {% if medicine.type_med == "Antipyretic" %}selected{% endif %}>Antipyretic</option>
+                            <option value="Analgesic" {% if medicine.type_med == "Analgesic" %}selected{% endif %}>Analgesic</option>
+                            <option value="Antihistamine" {% if medicine.type_med == "Antihistamine" %}selected{% endif %}>Antihistamine</option>
+                            <option value="Antibiotic" {% if medicine.type_med == "Antibiotic" %}selected{% endif %}>Antibiotic</option>
+                            <option value="Antidepressant" {% if medicine.type_med == "Antidepressant" %}selected{% endif %}>Antidepressant</option>
+                            <option value="Anticoagulant" {% if medicine.type_med == "Anticoagulant" %}selected{% endif %}>Anticoagulant</option>
+                            <option value="Antihypertensive" {% if medicine.type_med == "Antihypertensive" %}selected{% endif %}>Antihypertensive</option>
+                            <option value="Anti-inflammatory" {% if medicine.type_med == "Anti-inflammatory" %}selected{% endif %}>Anti-inflammatory</option>
+                            <option value="Antiviral" {% if medicine.type_med == "Antiviral" %}selected{% endif %}>Antiviral</option>
+                            <option value="Diuretic" {% if medicine.type_med == "Diuretic" %}selected{% endif %}>Diuretic</option>
+                            <option value="Antifungal" {% if medicine.type_med == "Antifungal" %}selected{% endif %}>Antifungal</option>
+                            <option value="Antiemetic" {% if medicine.type_med == "Antiemetic" %}selected{% endif %}>Antiemetic</option>
+                            <option value="Anticonvulsant" {% if medicine.type_med == "Anticonvulsant" %}selected{% endif %}>Anticonvulsant</option>
+                            <option value="Bronchodilator" {% if medicine.type_med == "Bronchodilator" %}selected{% endif %}>Bronchodilator</option>
+                            <option value="Muscle Relaxant" {% if medicine.type_med == "Muscle Relaxant" %}selected{% endif %}>Muscle Relaxant</option>
+                            <option value="Laxative" {% if medicine.type_med == "Laxative" %}selected{% endif %}>Laxative</option>
+                            <option value="Antacid" {% if medicine.type_med == "Antacid" %}selected{% endif %}>Antacid</option>
+                            <option value="Hormone Replacement Therapy (HRT)" {% if medicine.type_med == "Hormone Replacement Therapy (HRT)" %}selected{% endif %}>Hormone Replacement Therapy (HRT)</option>
+                            <option value="Immunosuppressant" {% if medicine.type_med == "Immunosuppressant" %}selected{% endif %}>Immunosuppressant</option>
+                            <option value="Antimigraine" {% if medicine.type_med == "Antimigraine" %}selected{% endif %}>Antimigraine</option>
+                            <option value="Antidiabetic" {% if medicine.type_med == "Antidiabetic" %}selected{% endif %}>Antidiabetic</option>
                         </select>
                     </div>
                 </div>
@@ -146,8 +126,8 @@
                     <label class="col-md-4 control-label" for="id_regulatoryClass">Regulatory Class:</label>
                     <div class="col-md-4 inputGroupContainer">
                         <select class="form-control" name="regulatoryClass" id="id_regulatoryClass">
-                            <option value="General">General</option>
-                            <option value="Restricted">Restricted</option>
+                            <option value="General" {% if medicine.regulatoryClass == "General" %}selected{% endif %}>General</option>
+                            <option value="Restricted" {% if medicine.regulatoryClass == "Restricted" %}selected{% endif %}>Restricted</option>
                         </select>
                     </div>
                 </div>
@@ -155,14 +135,14 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="id_dosage">Dosage:</label>
                     <div class="col-md-4 inputGroupContainer">
-                        <input name="dosage" class="form-control" type="number" required id="id_dosage">
+                        <input name="dosage" class="form-control" type="number" required id="id_dosage" value="{{ medicine.dosage }}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="id_medCost">Medicine Cost:</label>
                     <div class="col-md-4 inputGroupContainer">
-                        <input name="medCost" class="form-control" type="number" required id="id_medCost">
+                        <input name="medCost" class="form-control" type="number" required id="id_medCost" value="{{ medicine.medCost }}">
                     </div>
                 </div>
 
@@ -170,7 +150,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
-                        <button type="submit" class="btn btn-warning">Add Medicine<span
+                        <button type="submit" class="btn btn-warning">Update Medicine<span
                                 class="glyphicon glyphicon-send"></span></button>
                     </div>
                 </div>
@@ -198,12 +178,6 @@
     <!-- for aadhar search  -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#id_aadharNo').select2();
-        });
-    </script>
-
 </body>
 
 </html>

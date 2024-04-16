@@ -41,8 +41,15 @@ def hospital_signup_view(request):
             hospital=hospital.save()
             my_hospital_group = Group.objects.get_or_create(name='HOSPITAL')
             my_hospital_group[0].user_set.add(user)
-        return HttpResponseRedirect('hospitallogin')
-    return render(request,'treatment/hospitalsignup.html',context=mydict)
+            return JsonResponse({'success': True})
+        else:
+            error_message = 'Username already exists. Please choose another one.'
+            return JsonResponse({'success': False, 'message': error_message}, status=400)
+    else:
+        userForm=forms.HospitalUserForm()
+        hospitalForm=forms.HospitalForm()
+        mydict={'userForm':userForm,'hospitalForm':hospitalForm}
+        return render(request,'treatment/hospitalsignup.html',context=mydict)
 
 def medical_practitioner_signup_view(request):
     userForm=forms.MedicalPractitionerUserForm()
@@ -60,8 +67,15 @@ def medical_practitioner_signup_view(request):
             medicalPractitioner=medicalPractitioner.save()
             my_medical_practitioner_group = Group.objects.get_or_create(name='MEDICAL_PRACTITIONER')
             my_medical_practitioner_group[0].user_set.add(user)
-        return HttpResponseRedirect('medpraclogin')
-    return render(request,'treatment/medpracsignup.html',context=mydict)
+            return JsonResponse({'success': True})
+        else:
+            error_message = 'Username already exists. Please choose another one.'
+            return JsonResponse({'success': False, 'message': error_message}, status=400)
+    else:
+        userForm=forms.MedicalPractitionerUserForm()
+        medicalPractitionerForm=forms.MedicalPractitionerForm()
+        mydict={'userForm':userForm,'medicalPractitionerForm':medicalPractitionerForm} 
+        return render(request,'treatment/medpracsignup.html',context=mydict)
 
 def patient_signup_view(request):
     userForm=forms.PatientUserForm()
@@ -79,25 +93,34 @@ def patient_signup_view(request):
             patient=patient.save()
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
-        return HttpResponseRedirect('patientlogin')
-    return render(request,'treatment/patientsignup.html',context=mydict)
+            return JsonResponse({'success': True})
+        else:
+            error_message = 'Username already exists. Please choose another one.'
+            return JsonResponse({'success': False, 'message': error_message}, status=400)
+    else:
+        userForm=forms.PatientUserForm()
+        patientForm=forms.PatientForm()
+        mydict={'userForm':userForm,'patientForm':patientForm}
+        return render(request,'treatment/patientsignup.html',context=mydict)
 
 def admin_signup_view(request):
-    userForm=forms.AdminUserForm()
-    mydict={'userForm':userForm}
-    if request.method=='POST':
-        userForm=forms.AdminUserForm(request.POST)
+    if request.method == 'POST':
+        userForm = forms.AdminUserForm(request.POST)
         if userForm.is_valid():
-            user=userForm.save()
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
             my_admin_group = Group.objects.get_or_create(name='ADMIN')
             my_admin_group[0].user_set.add(user)
             admin = models.Admin(user=user)
             admin.save()
-
-        return HttpResponseRedirect('adminlogin')
-    return render(request,'treatment/adminsignup.html',context=mydict)
+            return JsonResponse({'success': True})
+        else:
+            error_message = 'Username already exists. Please choose another one.'
+            return JsonResponse({'success': False, 'message': error_message}, status=400)
+    else:
+        userForm = forms.AdminUserForm()
+        return render(request, 'treatment/adminsignup.html', {'userForm': userForm})
     
 def hospital_dashboard_view(request,hospitalID):
     hospital=models.Hospital.objects.get(hospitalID=hospitalID)
@@ -312,6 +335,16 @@ def medicine_list(request):
     medicines = models.Medicine.objects.all()
     return render(request, 'treatment/medicine_list.html', {'medicines': medicines})
 
+def update_medicine(request, medName):
+    medicine = get_object_or_404(models.Medicine, medName=medName)
+    if request.method == 'POST':
+        form = forms.MedicineForm(request.POST, instance=medicine)
+        if form.is_valid():
+            form.save()
+            return redirect('treatment:medicine_list')
+    else:
+        form = forms.MedicineForm(instance=medicine)
+    return render(request, 'treatment/update_medicine.html', {'form': form, 'medicine': medicine})
 # need to add database access for aadhar
 @login_required
 def add_vitals(request):

@@ -67,7 +67,7 @@
                     <th>Medicine Type</th>
                     <th>Regulatory Class</th>
                     <th>Cost</th>
-                    <th>Delete</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +80,7 @@
                     <td>{{ medicine.medCost }}</td>
                     <td>
                         <a href="{% url 'treatment:delete_medicine' medicine.medName %}" class="btn btn-danger" data-confirm="Are you sure you want to delete this medicine?">Delete</a>
+                        <a href="{% url 'treatment:update_medicine' medicine.medName %}" class="btn btn-warning">Update</a>
                     </td>
                 </tr>
                 {% endfor %}

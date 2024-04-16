@@ -12,47 +12,47 @@
 
 <body>
     <div class="grad-bar"></div>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">Aarogya Sangraha</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <div class="hori-selector">
-          <div class="left"></div>
-          <div class="right"></div>
-        </div>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:signup' %}"><i class="fas fa-user"></i>Signup</a>
-        </li>
-        {% if not user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt"></i>Login</a>
-        </li>
-        {% else %}
-        {% if user.hospital %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.medicalpractitioner %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.patient %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.admin %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% endif %}
-        {% endif %}
-      </ul>
-    </div>
-  </nav>
+    <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">Aarogya Sangraha</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <div class="hori-selector">
+            <div class="left"></div>
+            <div class="right"></div>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'treatment:signup' %}"><i class="fas fa-user"></i> Signup</a>
+          </li>
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'treatment:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+          </li>
+          {% else %}
+          {% if user.hospital %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </li>
+          {% elif user.medicalpractitioner %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </li>
+          {% elif user.patient %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </li>
+          {% elif user.admin %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </li>
+          {% endif %}
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
     <div class="main-bg">
         <div class="box-container">
             <div id="a">
@@ -147,6 +147,54 @@
         </div>
     </div>
     <script src="{% static 'treatment/js/signup.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.querySelector('form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+
+    // Serialize the form data
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // Successful submission, redirect to the login page
+        window.location.href = '{% url "treatment:medpraclogin" %}';
+      } else {
+        // Error handling
+        var response = JSON.parse(xhr.responseText);
+        if (response.success === false) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: response.message
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'An error occurred. Please try again.'
+          });
+        }
+      }
+    };
+
+    xhr.onerror = function() {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred. Please try again.'
+      });
+    };
+
+    xhr.send(formData);
+  });
+});
+</script>
 </body>
 
 </html>
