@@ -35,26 +35,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto" style="display: flex; justify-content: flex-end; width: 100%;">
         <div class="hori-selector">
           <div class="left"></div>
           <div class="right"></div>
         </div>
-        {% if user.hospital %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.medicalpractitioner %}
+        {% if user.medicalpractitioner %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.patient %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
-        </li>
-        {% elif user.admin %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
         {% endif %}
       </ul>

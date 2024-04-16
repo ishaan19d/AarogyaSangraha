@@ -33,6 +33,11 @@ i {
   width: 100%;
   z-index: 1000;
 }
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
 
 .grad-bar {
   width: 100%; /* Full width */

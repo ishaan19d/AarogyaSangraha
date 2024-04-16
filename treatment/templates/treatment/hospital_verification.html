@@ -1,13 +1,65 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
   <link rel="stylesheet" href="{% static 'treatment/css/hospitalVerification.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Hospital</title>
+  <title>Hospital</title>
+  <style>
+    /* Container Styles */
+    #container-wrapper {
+        background-image: url('path/to/background-image.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Styles */
+    .table {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+
+    .table th {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    tbody tr:hover td {
+        background-color: #e8e8e8;
+    }
+
+    /* Link Styles */
+    .btn {
+        display: inline-block;
+        padding: 6px 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+        color: #fff;
+    }
+
+    /* Heading Styles */
+    h1 {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        margin-top: 30px;
+    }
+</style>
 </head>
+
 <body>
   <div class="grad-bar"></div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,28 +76,33 @@
         </div>
         {% if user.hospital %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i class="fas fa-desktop"></i></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:hospital_dashboard' request.user.hospital.hospitalID %}"><i
+              class="fas fa-desktop"></i></i>Back To Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'treatment:hospitallogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
         {% elif user.medicalpractitioner %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+          <a class="nav-link"
+            href="{% url 'treatment:practitioner_dashboard' request.user.medicalpractitioner.medicalID %}"><i
+              class="fas fa-desktop"></i>Back To Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'treatment:medpraclogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
         {% elif user.patient %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:patient_dashboard' request.user.patient.aadharNo %}"><i
+              class="fas fa-desktop"></i>Back To Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'treatment:patientlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </li>
         {% elif user.admin %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i class="fas fa-desktop"></i>Back To Dashboard</a>
+          <a class="nav-link" href="{% url 'treatment:admin_dashboard' request.user.username %}"><i
+              class="fas fa-desktop"></i>Back To Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'treatment:adminlogout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
@@ -55,16 +112,33 @@
     </div>
   </nav>
   <h1>Hospital Verifications</h1>
+  <br>
+  <div class="content">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hospital ID</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hospital in hospitals %}
+            <tr>
+                <td>{{ hospital.hospitalID }}</td>
+                <td>{{ hospital.status }}</td>
+                <td>
+                    <a class="btn" href="{% url 'treatment:process_hospital_verification' hospital.hospitalID %}">
+                        Process Verification
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-  <ul>
-    {% for hospital in hospitals %}
-      <li>
-        <a href="{% url 'treatment:process_hospital_verification' hospital.hospitalID %}">
-          {{ hospital.hospitalID }} - {{ hospital.status }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
 
 </body>
+
 </html>
