@@ -140,7 +140,7 @@ def medical_practitioner_dashboard_view(request, medicalID):
                 vitals = form.save(commit=False)
                 vitals.hospitalID = request.user.medicalpractitioner.hospitalID
                 vitals.save()
-                return redirect('treatment:add_vitals')
+                return redirect('treatment:practitioner_dashboard', medicalID=request.user.medicalpractitioner.medicalID)
     else:
         if request.user.medicalpractitioner.department != 'Nurse':
             form = forms.TreatmentForm()
