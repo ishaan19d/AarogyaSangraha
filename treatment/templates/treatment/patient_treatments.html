@@ -77,7 +77,7 @@
         <tbody>
             {% for treatment in treatments %}
             <tr>
-                <td>{{ treatment.tid }}</td>
+                <td><a href="{% url 'treatment:treatment_detail' treatment.tid %}">{{ treatment.tid }}</a></td>
                 <td>{{ treatment.date }}</td>
                 <td>{{ treatment.time }}</td>
                 <td>{{ treatment.disease }}</td>

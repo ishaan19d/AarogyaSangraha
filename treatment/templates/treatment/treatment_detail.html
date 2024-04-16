@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,13 +116,6 @@
             </td>
         </tr>
     </table>
-    <div class="back-link">
-        {% if request.user.patient %}
-        <a href="{% url 'treatment:patient_dashboard' request.user.patient.get_aadharNo %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-        {% else %}
-        <a href="{% url 'treatment:practitioner_dashboard' treatment.medicalID.get_medicalID %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-        {% endif %}
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
